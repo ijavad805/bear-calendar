@@ -1,0 +1,42 @@
+{
+  "name": "@bear-calendar/core",
+  "version": "0.0.0",
+  "description": "bear calendar is lightweight react library for manage a calendar",
+  "author": "Javad Kazemzade",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ijavad805/bear-calendar",
+    "directory": "packages/core"
+  },
+  "scripts": {
+    "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
+    "build": "tsdx build --tsconfig tsconfig.build.json",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepublish": "npm run build"
+  },
+  "main": "dist/index.js",
+  "module": "dist/core.esm.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "dist"
+  ],
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "@bear-calendar/utility": "0.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@bear-calendar/utility": "0.0.0"
+  }
+}

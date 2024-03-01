@@ -4,8 +4,44 @@
   "workspaces": [
     "packages/*"
   ],
-  "dependencies": {},
+  "scripts": {
+    "lerna": "lerna",
+    "start": "lerna run start --stream --parallel",
+    "test": "lerna run test --",
+    "lint": "lerna run lint -- --fix",
+    "build": "lerna run build",
+    "build:storybook": "build-storybook",
+    "prepublish": "lerna run prepublish",
+    "start:playground": "npm run build && cd ./playground && npm start",
+    "start:storybook": "start-storybook -p 6006",
+    "cypress": "cypress run",
+    "cypress:open": "cypress open",
+    "changeset": "changeset",
+    "release": "changeset publish",
+    "version:next": "changeset version --snapshot next",
+    "release:next": "changeset publish --tag next"
+  },
   "devDependencies": {
-    "lerna": "^8.1.2"
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.1",
+    "@types/node": "^20.11.19",
+    "classnames": "^2.5.1",
+    "css-loader": "^6.10.0",
+    "lerna": "^8.1.2",
+    "postcss": "^8.4.35",
+    "postcss-loader": "^8.1.0",
+    "postcss-nested": "^6.0.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "style-loader": "^3.3.4",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.10",
+    "docz": "^2.4.0",
+    "jalaliday": "^2.3.0",
+    "mobx": "^6.12.0",
+    "mobx-react-lite": "^4.0.5",
+    "mobx-state-tree": "^5.4.1"
   }
 }

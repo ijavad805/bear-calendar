@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.build.json",
+    "include": ["packages", "stories", "types", "playground"],
+    "compilerOptions": {
+        "allowJs": false,
+        "baseUrl": ".",
+        "isolatedModules": false,
+        "typeRoots": ["./node_modules/@types", "./types"],
+        "paths": {
+            "@bear-calendar/core": ["packages/core/src"],
+            "@bear-calendar/utility": ["packages/utility/src"]
+        }
+    }
+}

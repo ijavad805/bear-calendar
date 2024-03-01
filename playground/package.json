@@ -1,0 +1,23 @@
+{
+    "name": "@bear-calendar/playground",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "npx parcel index.html",
+        "build": "npx parcel build index.html"
+    },
+    "dependencies": {
+        "react-app-polyfill": "^1.0.0"
+    },
+    "alias": {
+        "@bear-calendar/core": "../packages/core",
+        "react": "../node_modules/react",
+        "react-dom": "../node_modules/react-dom/profiling"
+    },
+    "devDependencies": {
+        "@types/react": "^16.14.0",
+        "@types/react-dom": "^16.14.0",
+        "typescript": "^5.3.3"
+    }
+}
