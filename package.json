@@ -16,9 +16,12 @@
     "changeset": "changeset",
     "release": "changeset publish",
     "version:next": "changeset version --snapshot next",
-    "release:next": "changeset publish --tag next"
+    "release:next": "changeset publish --tag next",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.23.10",
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
     "@lerna-lite/cli": "^3.3.0",
@@ -31,4 +34,21 @@
     "@storybook/blocks": "^7.6.17",
     "@storybook/react": "^7.6.17",
     "@storybook/react-vite": "^7.6.17",
-    "@storybook/test": "^7.
+    "@storybook/test": "^7.6.17",
+    "@types/node": "^20.11.19",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "classnames": "^2.5.1",
+    "css-loader": "^6.10.0",
+    "eslint-plugin-storybook": "^0.8.0",
+    "postcss": "^8.4.35",
+    "postcss-loader": "^8.1.0",
+    "postcss-nested": "^6.0.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "storybook": "^7.6.17",
+    "style-loader": "^3.3.4",
+    "tsdx": "^0.14.1",
+    "typescript": "^5.3.3"
+  }
+}
