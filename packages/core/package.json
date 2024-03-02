@@ -4,7 +4,6 @@
   "description": "bear calendar is lightweight react library for manage a calendar",
   "author": "Javad Kazemzade",
   "license": "MIT",
-  "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ijavad805/bear-calendar",
@@ -17,9 +16,9 @@
     "lint": "tsdx lint",
     "prepublish": "npm run build"
   },
-  "main": "dist/index.js",
-  "module": "dist/core.esm.js",
-  "typings": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/core.esm.js",
+  "typings": "./dist/index.d.ts",
   "files": [
     "README.md",
     "CHANGELOG.md",

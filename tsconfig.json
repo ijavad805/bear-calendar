@@ -1,6 +1,6 @@
 {
     "extends": "./tsconfig.build.json",
-    "include": ["packages", "types", "playground"],
+    "include": ["packages", "types", "playground", "docz"],
     "compilerOptions": {
         "allowJs": false,
         "baseUrl": ".",

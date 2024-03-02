@@ -7,5 +7,5 @@
     "private": true,
     "npmClient": "npm",
     "packages": ["packages/*"],
-    "$schema": "node_module/lerna/schemas/lerna-schema.json"
+    "$schema": "node_modules/@lerna-lite/cli/schemas/lerna-schema.json"
 }

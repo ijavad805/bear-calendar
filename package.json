@@ -10,7 +10,6 @@
     "test": "lerna run test --",
     "lint": "lerna run lint -- --fix",
     "build": "lerna run build",
-    "prepublish": "lerna run prepublish",
     "start:playground": "npm run build && cd ./playground && npm start",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
@@ -22,18 +21,14 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
-    "@types/node": "^20.11.19",
-    "classnames": "^2.5.1",
-    "css-loader": "^6.10.0",
-    "lerna": "^8.1.2",
-    "postcss": "^8.4.35",
-    "postcss-loader": "^8.1.0",
-    "postcss-nested": "^6.0.1",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "style-loader": "^3.3.4",
-    "tsdx": "^0.14.1",
-    "typescript": "^5.3.3",
-    "docz": "^2.4.0"
-  }
-}
+    "@lerna-lite/cli": "^3.3.0",
+    "@lerna-lite/list": "^3.3.0",
+    "@lerna-lite/run": "^3.3.0",
+    "@storybook/addon-essentials": "^7.6.17",
+    "@storybook/addon-interactions": "^7.6.17",
+    "@storybook/addon-links": "^7.6.17",
+    "@storybook/addon-onboarding": "^1.0.11",
+    "@storybook/blocks": "^7.6.17",
+    "@storybook/react": "^7.6.17",
+    "@storybook/react-vite": "^7.6.17",
+    "@storybook/test": "^7.
