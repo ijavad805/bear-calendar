@@ -1,8 +1,11 @@
 {
-  "version": "0.0.1",
-  "registry": "https://registry.npmjs.org/",
-  "publishConfig": {
-    "access": "public"
-  },
-  "packages": ["packages/*"]
+    "version": "1.0.0",
+    "registry": "https://registry.npmjs.org/",
+    "publishConfig": {
+        "access": "public"
+    },
+    "private": true,
+    "npmClient": "npm",
+    "packages": ["packages/*"],
+    "$schema": "node_module/lerna/schemas/lerna-schema.json"
 }

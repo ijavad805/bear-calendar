@@ -28,17 +28,19 @@ export const dayStore = types
             const day = store.days.get(
                 dayjs(event.date).format(formats.primary_key)
             );
-            day?.removeEvent(event);
-            const newDayModel = store.days.get(
-                dayjs(newDate).format(formats.primary_key)
-            );
-            if (newDayModel) {
-                newDayModel.addEvent(event);
-            } else {
-                store.add({
-                    date: newDate,
-                    events: [event],
-                });
+            if (day) {
+                day.removeEvent(event);
+                const newDayModel = store.days.get(
+                    dayjs(newDate).format(formats.primary_key)
+                );
+                if (newDayModel) {
+                    newDayModel.addEvent(event);
+                } else {
+                    store.add({
+                        date: newDate,
+                        events: [event],
+                    });
+                }
             }
         },
     }));

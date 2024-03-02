@@ -1,12 +1,11 @@
-import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-
+import {BearCalendar} from "@bear-calendar/core";
 
 const Playground = () => {
   const containers = ['A', 'B', 'C'];
 
-  return <>Hello World</>;
+  return <BearCalendar />;
 };
 
 ReactDOM.render(<Playground />, document.getElementById('root'));
