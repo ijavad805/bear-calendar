@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
-import jalaliday from 'jalaliday';
+import weekday from 'dayjs/plugin/weekday';
 
-dayjs.extend(jalaliday);
+dayjs.extend(weekday)
 
 export * from './store';
 export * from './utility';
+export * from './components';

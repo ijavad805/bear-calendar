@@ -1,8 +1,8 @@
-import {Instance, SnapshotIn, SnapshotOut, types} from 'mobx-state-tree';
-import {eventModel, IEventModel, IEventModelSnapshotIn} from '../event';
+import {Instance, SnapshotIn, SnapshotOut, types} from "mobx-state-tree";
+import {eventModel, IEventModel, IEventModelSnapshotIn} from "../event";
 
 export const dayModel = types
-    .model('dayModel', {
+    .model("dayModel", {
         date: types.identifier,
         events: types.optional(types.array(eventModel), []),
     })
@@ -12,7 +12,7 @@ export const dayModel = types
         },
         addEvent(event: IEventModelSnapshotIn) {
             store.events.push(eventModel.create(event));
-        },
+        }, 
     }))
     .views((store) => ({
         get hasEvents() {
