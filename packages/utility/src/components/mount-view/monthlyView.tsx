@@ -3,7 +3,7 @@ import {BearCalendarMonthlyViewProps} from "./monthly.types";
 import {Cell} from "./cell";
 import { observer } from "mobx-react-lite";
 import { useDateTools } from "../../utility";
-import classes from "./style/monthly.module.scss";
+import "./style/monthly.module.scss";
 
 export const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
     (props) => {
@@ -14,7 +14,7 @@ export const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
         );
 
         return (
-            <table className={classes.table}>
+            <table className={"table"}>
                 <thead>
                     <tr>
                         {tools.getWeakDayName(false).map((item, index) => (
