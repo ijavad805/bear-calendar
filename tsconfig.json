@@ -7,7 +7,8 @@
         "isolatedModules": true,
         "paths": {
             "@bear-calendar/core": ["packages/core/src"],
-            "@bear-calendar/utility": ["packages/utility/src"]
+            "@bear-calendar/utility": ["packages/utility/src"],
+            "@bear-calendar/plugin-monthly": ["packages/plugin-monthly/src"]
         }
     }
 }

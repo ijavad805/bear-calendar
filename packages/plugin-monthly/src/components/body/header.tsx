@@ -1,14 +1,12 @@
 import React from "react";
-import {observer} from "@bear-calendar/utility";
-import {BearCalendarHeaderProps} from "../bear-calendar";
-import {useCalendarProps} from "../bear-calendar/context";
+import {BearCalendarHeaderProps, observer, useCalendarProps} from "@bear-calendar/utility";
 import classes from "./style/header.module.scss";
 
 export const Header: React.FC<BearCalendarHeaderProps> = observer((props) => {
-    const {components: Components, extra} = useCalendarProps();
+    const { extra} = useCalendarProps();
 
-    if (Components?.header)
-        return <Components.header extra={extra} {...props} />;
+    // if (Components?.header)
+    //     return <Components.header extra={extra} {...props} />;
 
     return (
         <div className={classes.header} {...props}>

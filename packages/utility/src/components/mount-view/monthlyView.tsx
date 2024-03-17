@@ -1,20 +1,29 @@
 import React from "react";
-import {BearCalendarMonthlyViewProps} from "./monthly.types";
-import {Cell} from "./cell";
-import { observer } from "mobx-react-lite";
-import { useDateTools } from "../../utility";
-import "./style/monthly.module.scss";
+import {
+    BearCalendarMonthViewSize,
+    BearCalendarMonthlyViewProps,
+} from "./monthly.types";
+import Cell from "./cell";
+import {observer} from "mobx-react-lite";
+import {useDateTools} from "../../utility";
+import classes from "./style/monthly.module.scss";
 
-export const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
+const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
     (props) => {
         const tools = useDateTools(props.current);
-
+        const tableSize = [classes.small, classes.medium, classes.large];
         const countTr = Math.ceil(
             (tools.getMonth().countDay + tools.getMonthStartWith()) / 7
         );
 
         return (
-            <table className={"table"}>
+            <>
+            {tools.getMonthStartWith()}
+              <table
+                className={`${classes.table} ${
+                    tableSize[props.size || BearCalendarMonthViewSize.Large]
+                }`}
+            >
                 <thead>
                     <tr>
                         {tools.getWeakDayName(false).map((item, index) => (
@@ -72,7 +81,8 @@ export const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
                     })}
                     <tr></tr>
                 </tbody>
-            </table>
+            </table></>
+          
         );
     }
 );
@@ -82,22 +92,18 @@ interface IProps {
     current: string;
 }
 const FillStart: React.FC<IProps> = ({emptyCount, current}) => {
-    const {date} = useDateTools(current);
+    // const {date} = useDateTools(current);
 
-    const getEndOfPrevMonth = (index: number) => {
-        const date_ = date.clone().add(-1, "month").endOf("month");
+    // const getEndOfPrevMonth = (index: number) => {
+    //     const date_ = date.clone().add(-1, "month").endOf("month");
 
-        return date_.add(index - emptyCount + 1, "day").format("YYYY-MM-DD");
-    };
+    //     return date_.add(index - emptyCount + 1, "day").format("YYYY-MM-DD");
+    // };
 
     return (
         <>
-            {new Array(emptyCount).fill("d").map((i, index) => (
-                <Cell
-                    date={getEndOfPrevMonth(index)}
-                    disabled={true}
-                    cellIndexInWeek={index}
-                />
+            {new Array(Math.abs(emptyCount)).fill("d").map((i, index) => (
+                <td>here</td>
             ))}
         </>
     );
@@ -130,3 +136,6 @@ const FillEnd: React.FC<IProps> = (props) => {
         </>
     );
 };
+
+
+export default MonthlyView;

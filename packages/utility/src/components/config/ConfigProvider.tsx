@@ -1,24 +1,29 @@
-import React, { useContext } from "react";
-import { BearConfigProviderProps } from "./ConfigProvider.types";
+import React, {useContext} from "react";
+import {BearConfigProviderProps} from "./ConfigProvider.types";
 
-const ConfigContext = React.createContext<BearConfigProviderProps>({
-    locale: "en"
-});
+const ConfigContext = React.createContext<BearConfigProviderProps | undefined>(undefined);
 
-interface IProps{
+interface IProps {
     children: React.ReactNode;
-    value: BearConfigProviderProps;
+    value?: BearConfigProviderProps;
 }
 export const useConfig = () => {
     const context = useContext(ConfigContext);
-    if(context === undefined) throw new Error("please use useConfig inside Provider Context");
+    if (context === undefined)
+        throw new Error("please use useConfig inside Provider Context");
 
     return context;
-}
-export const ProviderContext: React.FC<IProps> = (props) => {
+};
+export const ProviderConfig: React.FC<IProps> = (props) => {
     return (
-        <ConfigContext.Provider value={props.value}>
+        <ConfigContext.Provider
+            value={
+                props.value || {
+                    locale: "fa",
+                }
+            }
+        >
             {props.children}
         </ConfigContext.Provider>
-    )
-}
+    );
+};

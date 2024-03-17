@@ -1,13 +1,14 @@
 {
-  "name": "@bear-calendar/core",
+  "name": "@bear-calendar/plugin-monthly",
   "version": "1.0.0",
-  "description": "bear calendar is lightweight react library for manage a calendar",
+  "description": "monthly for bear calendar",
+  "private": false,
   "author": "Javad Kazemzade",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ijavad805/bear-calendar",
-    "directory": "packages/core"
+    "directory": "packages/plugin-monthly"
   },
   "scripts": {
     "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
@@ -17,7 +18,7 @@
     "prepublish": "npm run build"
   },
   "main": "./dist/index.js",
-  "module": "./dist/core.esm.js",
+  "module": "./dist/plugin-monthly.esm.js",
   "typings": "./dist/index.d.ts",
   "files": [
     "README.md",
@@ -25,14 +26,17 @@
     "LICENSE",
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "@bear-calendar/utility": "^1.0.0",
     "dayjs": "^1.11.10",
-    "jalaliday": "^2.3.0"
+    "jalaliday": "^2.3.0",
+    "mobx": "^6.12.0",
+    "mobx-react-lite": "^4.0.5",
+    "mobx-state-tree": "^5.4.1"
   },
   "devDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "sass": "^1.71.1",
     "tslib": "^2.6.2"
   }

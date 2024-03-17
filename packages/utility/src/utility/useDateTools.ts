@@ -1,3 +1,4 @@
+import { useConfig } from "../components";
 import {useLocale} from "../locale/useLocale";
 import {useDayjs} from "./useDayjs";
 
@@ -5,13 +6,17 @@ export const useDateTools = (customDate: string) => {
     const locale = useLocale();
     const dayjs = useDayjs();
     const date = dayjs(customDate);
+    const config = useConfig();
 
     const getYear = (): string => {
         return date.format("YYYY");
     };
 
     const getMonthStartWith = (): number => {
-        return date.startOf("month").day();
+        let startDay = date.startOf("month").day();
+        if(config.locale === "fa") startDay = startDay + 1;
+        
+        return startDay;
     };
 
     const getMonths = (short: boolean = false) => {

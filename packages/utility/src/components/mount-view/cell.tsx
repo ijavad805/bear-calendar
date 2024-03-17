@@ -8,7 +8,10 @@ interface IProps {
     onClick?: () => void;
     cellIndexInWeek: number;
 }
-export const Cell: React.FC<IProps> = (props) => {
+const Cell: React.FC<IProps> = (props) => {
     const dayjs = useDayjs();
     return <td className={classes.cell}>{dayjs(props.date).format("DD")}</td>;
 };
+
+
+export default Cell;

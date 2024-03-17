@@ -1,6 +1,8 @@
 import React from "react";
-import {IEventModel} from "@bear-calendar/utility";
 import {locale} from "dayjs";
+import {BearConfigProviderProps} from "../components/config/ConfigProvider.types";
+import { IEventModel } from "../store";
+import { Plugin, PluginName } from "./plugin.types";
 
 type ILocale = Parameters<typeof locale>[0];
 
@@ -33,6 +35,8 @@ export interface BearCalendarHeaderProps
 }
 
 export interface BearCalendarProps {
+    defaultCurrent: string;
+    plugin: Plugin[];
     components?: {
         cell?: React.FC<BearCalendarCellProps>;
         event?: React.FC<BearCalendarEventProps>;
@@ -45,4 +49,7 @@ export interface BearCalendarProps {
     lang?: ILocale;
     extra?: React.ReactNode;
     events?: IEvent[];
+    view?: PluginName;
+    enableViewControl?: boolean;
+    config?: BearConfigProviderProps;
 }
