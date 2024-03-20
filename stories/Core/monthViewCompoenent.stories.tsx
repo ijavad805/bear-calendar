@@ -21,6 +21,16 @@ const meta: Meta<typeof BearCalendar> = {
                 plugin={[new MonthlyPlugin()]}
                 view={"Monthly"}
                 config={{locale: "en"}}
+                events={[
+                    {
+                        id: 1,
+                        title: "test",
+                        date: {
+                            start: "2024-03-10",
+                            end: "2024-03-10",
+                        },
+                    },
+                ]}
             />
         );
     },

@@ -40,11 +40,13 @@ const Cell: React.FC<IProps> = observer((props) => {
                 <div className={classes.day}>{thisDay.format("DD")}</div>
             </div>
             <div className={classes.body}>
-                <div className={classes.events}>
-                    {/* {thisDayStore?.events.map((i) => (
-                        <div>{i.title}</div>
-                    ))} */}
-                </div>
+                {thisDayStore && (
+                    <div className={classes.events}>
+                        {thisDayStore.events.map((i) => (
+                            <div className={classes.event}>{i.title}</div>
+                        ))}
+                    </div>
+                )}
             </div>
         </td>
     );

@@ -7,6 +7,7 @@ import Cell from "./cell";
 import {observer} from "mobx-react-lite";
 import {useDateTools} from "../../utility";
 import classes from "./style/monthly.module.scss";
+import { useInitStore } from "../../store/useStore";
 
 const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
     (props) => {
@@ -15,6 +16,8 @@ const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
         const countTr = Math.ceil(
             (tools.getMonth().countDay + tools.getMonthStartWith()) / 7
         );
+
+        useInitStore();
 
         return (
             <>

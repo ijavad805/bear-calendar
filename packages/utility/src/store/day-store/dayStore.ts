@@ -65,7 +65,7 @@ export const dayStore = types
             events.forEach((event) => {
                 for (
                     let i = 0;
-                    i < dayjs(event.date.start).diff(event.date.end, "day");
+                    i <= dayjs(event.date.start).diff(event.date.end, "day");
                     i++
                 ) {
                     const date = dayjs(event.date.start).add(i, "day");
@@ -77,7 +77,7 @@ export const dayStore = types
                         day.addEvent(event);
                     } else {
                         store.add({
-                            date: date.format(),
+                            date: date.format(formats.primary_key),
                             events: [event],
                         });
                     }

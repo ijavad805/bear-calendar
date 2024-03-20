@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from "react";
 import {BearCalendarProps} from "../../types/bearCalendar.types";
-import { useStore } from "../../store";
-import { ProviderConfig } from "./ConfigProvider";
+import {useStore} from "../../store";
+import {ProviderConfig} from "./ConfigProvider";
 
 const ContextCalendar = React.createContext<BearCalendarProps | undefined>(
     undefined
@@ -27,7 +27,7 @@ export const CalendarProvider: React.FC<IProps> = (props) => {
         if (props.value.events) {
             dayStore.addEvent(
                 props.value.events.map((event) => ({
-                    date: {start: event.date, end: event.date},
+                    date: {start: event.date.start, end: event.date.end},
                     id: event.id,
                     disabled: event.disabled,
                     title: event.title,

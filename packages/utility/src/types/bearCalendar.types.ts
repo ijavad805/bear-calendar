@@ -17,7 +17,10 @@ export interface BearCalendarCellProps
 export interface IEvent {
     id: number;
     title: string;
-    date: string;
+    date: {
+        start: string;
+        end: string;
+    };
     disabled?: boolean;
 }
 export interface BearCalendarEventProps
