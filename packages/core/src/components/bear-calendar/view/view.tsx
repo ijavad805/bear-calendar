@@ -3,7 +3,7 @@ import React, {useEffect, useMemo, useState} from "react";
 import classes from "./style.module.scss";
 export const View: React.FC = () => {
     const calendarProps = useCalendarProps();
-    const [activeView, setActiveView] = useState<PluginName>(
+    const [activeView, setActiveView] = useState<keyof typeof PluginName>(
         calendarProps.view || calendarProps.plugin[0].name
     );
     const view = useMemo(() => {

@@ -24,6 +24,8 @@ export const enLocale = {
     ],
     back: "Back",
     today: "Today",
+    startDay: 0, // Monday
+    direction: "ltr"
 };
 
 export type localeType = typeof enLocale;

@@ -84,4 +84,9 @@ export const dayStore = types
                 }
             });
         },
+    }))
+    .views((store) => ({
+        get(date: string) {
+            return store.days.get(dayjs(date).format(formats.primary_key));
+        },
     }));

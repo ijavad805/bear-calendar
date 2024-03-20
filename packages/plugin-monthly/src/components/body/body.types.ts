@@ -1,7 +1,7 @@
-import React from "react";
+import React, {ReactNode} from "react";
 
 export interface BearCalendarBodyProps {
-    title?: string;
+    title?: ReactNode;
     children?: React.ReactNode;
     onNext?: React.MouseEventHandler<HTMLDivElement>;
     onPrev?: React.MouseEventHandler<HTMLDivElement>;

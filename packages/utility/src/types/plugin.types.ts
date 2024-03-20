@@ -4,7 +4,7 @@ export enum PluginName {
 }
 
 export interface Plugin {
-    name: PluginName;
+    name:  keyof typeof PluginName;
     view?: () => React.ReactNode;
     components?: () => React.ReactNode;
 }

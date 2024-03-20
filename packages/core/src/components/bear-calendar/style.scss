@@ -1,0 +1,15 @@
+.bear-calendar {
+    font-family: Arial, sans-serif;
+
+    * {
+        --border-color: rgba(0, 0, 0, 0.125);
+        --primary: red;
+        --disable-day-color: #f0f0f0;
+        --past-date-dots: #f5ffd0;
+        --space-sm: 2px;
+        --space-md: 5px;
+        --space-lg: 10px;
+        --secondary-color: #818181;
+        --corner: 5px;
+    }
+}

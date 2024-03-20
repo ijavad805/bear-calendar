@@ -7,7 +7,7 @@ import {
 } from "@bear-calendar/utility";
 import dayjs from "dayjs";
 import {View} from "./view";
-
+import "./style.scss";
 export const BearCalendar: React.FC<BearCalendarProps> = observer(
     ({defaultCurrent = dayjs().format(), ...props}) => {
         useEffect(() => {
@@ -28,11 +28,13 @@ export const BearCalendar: React.FC<BearCalendarProps> = observer(
         }, [props.plugin]);
 
         return (
-            <CalendarStoreProvider>
-                <CalendarProvider value={{defaultCurrent, ...props}}>
-                    <View />
-                </CalendarProvider>
-            </CalendarStoreProvider>
+            <div className={"bear-calendar"}>
+                <CalendarStoreProvider>
+                    <CalendarProvider value={{defaultCurrent, ...props}}>
+                        <View />
+                    </CalendarProvider>
+                </CalendarStoreProvider>
+            </div>
         );
     }
 );

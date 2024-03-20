@@ -1,0 +1,38 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+
+    .controllers {
+        display: flex;
+        align-items: center;
+        user-select: none;
+
+        .controller {
+            cursor: pointer;
+            margin: 0 5px;
+            border-radius: var(--corner);
+            background-color: #ddd;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+                background-color: #ccc;
+            }
+        }
+    }
+
+    .title {
+        width: 80px;
+        text-align: center;
+    }
+
+    .extra {
+        margin-left: auto;
+        /* Push extra content to the right */
+    }
+}

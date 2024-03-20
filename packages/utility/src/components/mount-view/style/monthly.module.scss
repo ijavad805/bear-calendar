@@ -1,6 +1,34 @@
 .table {
-    border: 1px solid rgba($color: #000, $alpha: 0.125);
     width: 100%;
-    height: 100%;
+    border-collapse: collapse;
     table-layout: fixed;
+
+    th,
+    td {
+        padding: var(--space-lg);
+        border: 1px solid var(--border-color);
+        vertical-align: initial;
+    }
+
+    tr {
+        th {
+            border-left: unset;
+            border-right: unset;
+
+            &:nth-child(1) {
+                border-left: 1px solid var(--border-color)
+            }
+
+            &:nth-last-child(1) {
+                border-right: 1px solid var(--border-color)
+            }
+        }
+    }
+
+    th {
+        -webkit-user-select: none;
+        user-select: none;
+        background-color: #ffffff;
+        font-weight: lighter;
+    }
 }

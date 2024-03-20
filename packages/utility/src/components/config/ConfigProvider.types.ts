@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import {locale} from "../../locale";
 
 export interface BearConfigProviderProps {

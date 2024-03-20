@@ -1,8 +1,8 @@
-import React from "react";
+import React, {ReactNode} from "react";
 import {locale} from "dayjs";
 import {BearConfigProviderProps} from "../components/config/ConfigProvider.types";
-import { IEventModel } from "../store";
-import { Plugin, PluginName } from "./plugin.types";
+import {IEventModel} from "../store";
+import {Plugin, PluginName} from "./plugin.types";
 
 type ILocale = Parameters<typeof locale>[0];
 
@@ -25,9 +25,8 @@ export interface BearCalendarEventProps
     event: IEventModel;
 }
 
-export interface BearCalendarHeaderProps
-    extends React.AllHTMLAttributes<HTMLDivElement> {
-    title?: string;
+export interface BearCalendarHeaderProps {
+    title?: React.ReactNode;
     extra?: React.ReactNode;
     onNext?: React.MouseEventHandler<HTMLDivElement>;
     onPrev?: React.MouseEventHandler<HTMLDivElement>;
@@ -35,7 +34,7 @@ export interface BearCalendarHeaderProps
 }
 
 export interface BearCalendarProps {
-    defaultCurrent: string;
+    defaultCurrent?: string;
     plugin: Plugin[];
     components?: {
         cell?: React.FC<BearCalendarCellProps>;
@@ -49,7 +48,7 @@ export interface BearCalendarProps {
     lang?: ILocale;
     extra?: React.ReactNode;
     events?: IEvent[];
-    view?: PluginName;
+    view?: keyof typeof PluginName;
     enableViewControl?: boolean;
     config?: BearConfigProviderProps;
 }
