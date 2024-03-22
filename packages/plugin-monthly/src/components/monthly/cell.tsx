@@ -14,6 +14,9 @@ const Cell: React.FC<BearCalendarMonthlyViewRenderCellProps> = (props) => {
         if (props.isToday) {
             tmp.push(classes.today);
         }
+        if (props.isDropping) {
+            tmp.push(classes.dropping);
+        }
 
         return tmp.join(" ");
     };

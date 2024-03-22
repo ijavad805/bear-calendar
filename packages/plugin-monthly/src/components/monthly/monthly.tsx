@@ -31,7 +31,7 @@ export const Monthly = observer(() => {
             <MonthlyView
                 current={current.format()}
                 renderCell={(props) => <Cell {...props} />}
-                renderEvent={(event, isHover) => (
+                renderEvent={({event, isHover, isDragging}) => (
                     <div
                         className={`${classes.eventsItem} ${
                             isHover ? classes.hover : ""

@@ -12,9 +12,10 @@
     font-size: 10px;
     padding: var(--space-md);
     border-radius: 3px;
-    background: #b4cafe;
+    background: #3788d8;
+    -webkit-user-select: none;
     user-select: none;
-    color: #000;
+    color: #fff;
     border: 1px solid transparent;
 
     &.hover {
@@ -26,6 +27,7 @@
         opacity: 0 !important;
         z-index: 15;
     }
+
 }
 
 

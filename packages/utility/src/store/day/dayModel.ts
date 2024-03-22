@@ -8,11 +8,12 @@ export const dayModel = types
     })
     .actions((store) => ({
         removeEvent(event: IEventModel) {
-            store.events.remove(event);
+            const findEvent = store.events.find((i) => i.id === event.id);
+            if (findEvent) store.events.remove(findEvent);
         },
         addEvent(event: IEventModelSnapshotIn) {
             store.events.push(eventModel.create(event));
-        }, 
+        },
     }))
     .views((store) => ({
         get hasEvents() {

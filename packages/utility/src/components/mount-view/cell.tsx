@@ -7,7 +7,7 @@ import {BearCalendarMonthlyViewRenderCellProps} from "./monthly.types";
 import {IEvent} from "../../types";
 import {useMountViewProps} from "./useMountViewProps";
 import {toJS} from "mobx";
-import {EventHandler} from "../event-handler";
+import {EventHandler, useDroppable} from "../event-handler";
 
 interface IProps {
     date: string;
@@ -18,7 +18,7 @@ interface IProps {
 const Cell: React.FC<IProps> = observer((props) => {
     const dayjs = useDayjs();
     const {
-        dayStore: {get},
+        dayStore: {get, moveEvent},
     } = useStore();
     const mountViewProps = useMountViewProps();
     const thisDay = dayjs(props.date);
@@ -33,14 +33,25 @@ const Cell: React.FC<IProps> = observer((props) => {
     );
     const cellElm = document.querySelector(`.${classes.cell}`);
     const cellWidth = cellElm ? cellElm.clientWidth - 1 : 0;
+    const drop = useDroppable({
+        date: thisDay,
+        onDrop: (event, startDate, endDate) => {
+            moveEvent({start: startDate, end: endDate}, event);
+        },
+    });
 
     return (
-        <td className={classes.cell}>
+        <td
+            className={classes.cell}
+            onDrop={drop.handleDrop}
+            onDragOver={drop.handleHover}
+        >
             {mountViewProps.renderCell({
                 day: thisDay,
                 isDisabled: props.disabled || false,
                 isPast,
                 isToday,
+                isDropping: drop.isDropping,
                 eventsNode: thisDayStore ? (
                     <EventHandler
                         currentCellIndex={props.cellIndexInWeek}

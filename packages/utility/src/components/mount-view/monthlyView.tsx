@@ -1,8 +1,7 @@
 import React from "react";
 import {BearCalendarMonthlyViewProps} from "./monthly.types";
 import Cell from "./cell";
-import {observer} from "mobx-react-lite";
-import {useDateTools} from "../../utility";
+import {observer, useDateTools} from "../../utility";
 import classes from "./style/monthly.module.scss";
 import {useInitStore, useStore} from "../../store/useStore";
 import {MountViewPropsProvider} from "./useMountViewProps";

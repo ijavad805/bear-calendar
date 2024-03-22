@@ -8,11 +8,11 @@ import {BearCalendarMonthlyViewProps} from "../mount-view";
 
 interface IProps {
     events: IEventModel[];
-    renderItem: BearCalendarMonthlyViewProps["renderEvent"];
     eachCellWidth: number;
     currentCellIndex: number;
     maxCellIndex: number;
     maxRenderPerCell: number;
+    renderItem: BearCalendarMonthlyViewProps["renderEvent"];
     calcDiffRange: (event: IEventModel) => number;
 }
 let prevElmId = ``;

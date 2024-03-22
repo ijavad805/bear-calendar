@@ -13,6 +13,7 @@ export interface BearCalendarMonthlyViewRenderCellProps {
     isToday: boolean;
     isDisabled: boolean;
     isPast: boolean;
+    isDropping: boolean;
     eventList: IEvent[];
 }
 
@@ -22,7 +23,11 @@ export interface BearCalendarMonthlyViewProps {
         start: string;
         end: string;
     };
-    renderEvent: (event: IEvent, isHover: boolean) => React.ReactNode;
+    renderEvent: (props: {
+        event: IEvent;
+        isHover: boolean;
+        isDragging: boolean;
+    }) => React.ReactNode;
     renderCell: (
         props: BearCalendarMonthlyViewRenderCellProps
     ) => React.ReactNode;

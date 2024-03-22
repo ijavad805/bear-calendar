@@ -1,10 +1,14 @@
 import {Instance, types} from "mobx-state-tree";
 import {eventHandlerModel} from "./eventHandlerModel";
-import {IEventModel} from "../../../store";
+import {IEventModel, eventModel} from "../../../store";
+import dayjs from "dayjs";
+import {toJS} from "mobx";
 
 export const eventHandlerStore = types
     .model("eventHandlerStore", {
         events: types.optional(types.map(eventHandlerModel), {}),
+        draggingEvent: types.maybeNull(eventModel),
+        droppingEventDays: types.optional(types.array(types.string), []),
     })
     .actions((store) => ({
         initialize(events: IEventModel[]) {
@@ -20,6 +24,16 @@ export const eventHandlerStore = types
                 eventHandlerModel.create({event: id, priority: null})
             );
         },
+        startDragging(event: IEventModel) {
+            store.draggingEvent = eventModel.create(toJS(event));
+        },
+        maybeDroppingIn(newStartDate: string, newEndDate: string) {
+            store.droppingEventDays.replace([newStartDate, newEndDate]);
+        },
+        stopDragging() {
+            store.droppingEventDays.replace([]);
+            store.draggingEvent = null;
+        },
     }))
     .views((store) => ({
         getById(id: number) {
@@ -32,6 +46,16 @@ export const eventHandlerStore = types
             }
 
             return tmp;
+        },
+        isThisDayDropping(day: string) {
+            if (store.droppingEventDays.length < 2) return false;
+
+            return (
+                (dayjs(day).isAfter(store.droppingEventDays[0], "day") &&
+                    dayjs(day).isBefore(store.droppingEventDays[1], "day")) ||
+                dayjs(day).isSame(store.droppingEventDays[0], "day") ||
+                dayjs(day).isSame(store.droppingEventDays[1], "day")
+            );
         },
     }));
 

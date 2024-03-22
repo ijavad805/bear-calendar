@@ -44,9 +44,11 @@
         z-index: 2;
     }
 
-    &.dragHover,
     &:hover {
         background-color: #ffffcc;
+    }
+    &.dropping{
+        background-color: #ccebff;
     }
 
     &.clickable {

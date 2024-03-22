@@ -5,8 +5,10 @@ import dayjs from "dayjs";
 import classes from "./style.module.scss";
 import {observer} from "mobx-react-lite";
 import {BearCalendarMonthlyViewProps} from "../mount-view";
+import {useEventPriority} from "./useEventPriority";
+import {useEventDNDLogic} from "./useEventDNDLogic";
 
-interface IProps {
+export interface IEventLogicProps {
     id: string;
     prevId: string;
     event: IEventModel;
@@ -17,78 +19,19 @@ interface IProps {
     calcDiffRange: () => number;
     renderItem: BearCalendarMonthlyViewProps["renderEvent"];
 }
-const findAsyncId = async (id: string) => {
-    return new Promise((resolve, reject) => {
-        const interval = setInterval(() => {
-            const elm = document.querySelector(`.${id}`) as HTMLDivElement;
-            if (elm) {
-                resolve(elm);
-                clearInterval(interval);
-            }
-        }, 0);
-        setTimeout(() => clearInterval(interval), 100);
-    });
-};
-export const EventLogic: React.FC<IProps> = observer((props) => {
+
+export const EventLogic: React.FC<IEventLogicProps> = observer((props) => {
     const store = useEventHandler();
-    const [style, setStyle] = useState<React.CSSProperties>({
-        visibility: "hidden",
-    });
     const thisEvent = store.getById(props.event.id);
-
-    useEffect(() => {
-        (async () => {
-            const prevElm = (await findAsyncId(props.id)) as HTMLDivElement;
-
-            let top = 0;
-            let width = props.cellWidth;
-            const isStartRendering =
-                thisEvent.isRendering === false ||
-                dayjs(props.event.date.end).diff(
-                    props.event.date.start,
-                    "day"
-                ) +
-                    1 ===
-                    props.calcDiffRange();
-
-            if (prevElm) {
-                top =
-                    prevElm.offsetHeight * props.priority + props.priority * 2;
-            }
-            if (isStartRendering) {
-                thisEvent.startRendering();
-            } else if (
-                thisEvent.isRendering === true &&
-                props.currentCellIndex === props.maxCellIndex - 1
-            ) {
-                thisEvent.stopRendering();
-            }
-
-            if (isStartRendering) {
-                const difDays = props.calcDiffRange();
-
-                if (props.maxCellIndex - props.currentCellIndex > difDays) {
-                    width = width * difDays;
-                } else {
-                    width =
-                        width * (props.maxCellIndex - props.currentCellIndex);
-                }
-            }
-            setStyle({
-                visibility: isStartRendering ? "visible" : "hidden",
-                zIndex: isStartRendering ? 1 : -1,
-                userSelect: "none",
-                WebkitUserSelect: "none",
-                position: "absolute",
-                top,
-                width,
-            });
-        })();
-    }, []);
+    const priorityLogic = useEventPriority(props);
+    const dndLogic = useEventDNDLogic(props);
 
     return (
         <div
-            style={style}
+            style={{
+                ...(dndLogic.style as React.CSSProperties),
+                ...priorityLogic.style,
+            }}
             className={`${classes.eventLogic} ${props.id}`}
             onMouseEnter={() => {
                 thisEvent.startHovering();
@@ -96,8 +39,15 @@ export const EventLogic: React.FC<IProps> = observer((props) => {
             onMouseLeave={() => {
                 thisEvent.endHovering();
             }}
+            onDragStart={dndLogic.handleStartDarg}
+            onDragEnd={dndLogic.handleEndDrag}
+            draggable
         >
-            {props.renderItem(props.event, thisEvent.isHover)}
+            {props.renderItem({
+                event: props.event,
+                isHover: thisEvent.isHover,
+                isDragging: dndLogic.isDragging,
+            })}
         </div>
     );
 });
