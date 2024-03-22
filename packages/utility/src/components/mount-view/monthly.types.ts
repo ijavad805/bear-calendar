@@ -8,11 +8,12 @@ export interface BearCalendarMonthlyViewRenderHeaderProps {
     goToDay: () => void;
 }
 export interface BearCalendarMonthlyViewRenderCellProps {
-    events: React.ReactNode;
+    eventsNode: React.ReactNode | null;
     day: Dayjs;
     isToday: boolean;
     isDisabled: boolean;
     isPast: boolean;
+    eventList: IEvent[];
 }
 
 export interface BearCalendarMonthlyViewProps {
@@ -21,16 +22,13 @@ export interface BearCalendarMonthlyViewProps {
         start: string;
         end: string;
     };
-    disableDay: (date: Dayjs) => boolean;
-    renderEvent: (
-        event: IEvent,
-        attr: HtmlHTMLAttributes<HTMLDivElement>
-    ) => React.ReactNode;
+    renderEvent: (event: IEvent, isHover: boolean) => React.ReactNode;
     renderCell: (
         props: BearCalendarMonthlyViewRenderCellProps
     ) => React.ReactNode;
-    renderHeader: (
+    disableDay?: (date: Dayjs) => boolean;
+    renderHeader?: (
         props: BearCalendarMonthlyViewRenderHeaderProps
     ) => React.ReactNode;
-    extraHeader: (props: {current: Dayjs}) => React.ReactNode;
+    extraHeader?: (props: {current: Dayjs}) => React.ReactNode;
 }

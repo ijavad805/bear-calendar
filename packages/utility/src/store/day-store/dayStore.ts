@@ -65,7 +65,10 @@ export const dayStore = types
             events.forEach((event) => {
                 for (
                     let i = 0;
-                    i <= dayjs(event.date.start).diff(event.date.end, "day");
+                    i <=
+                    Math.abs(
+                        dayjs(event.date.start).diff(event.date.end, "day")
+                    );
                     i++
                 ) {
                     const date = dayjs(event.date.start).add(i, "day");

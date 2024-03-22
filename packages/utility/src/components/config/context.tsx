@@ -24,6 +24,7 @@ export const CalendarProvider: React.FC<IProps> = (props) => {
     const {dayStore} = useStore();
 
     useEffect(() => {
+        
         if (props.value.events) {
             dayStore.addEvent(
                 props.value.events.map((event) => ({

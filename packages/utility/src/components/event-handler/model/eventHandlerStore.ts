@@ -8,20 +8,28 @@ export const eventHandlerStore = types
     })
     .actions((store) => ({
         initialize(events: IEventModel[]) {
-            store.events.replace(
-                events.map((i) =>
+            events.forEach((i) => {
+                store.events.put(
                     eventHandlerModel.create({event: i.id, priority: null})
-                )
+                );
+            });
+        },
+        addEvent(id: number) {
+            if (store.events.get(id) !== undefined) return;
+            store.events.put(
+                eventHandlerModel.create({event: id, priority: null})
             );
         },
     }))
     .views((store) => ({
         getById(id: number) {
-            const tmp = store.events.get(id);
-            if (tmp === undefined)
-                throw new Error(
-                    "Event not found in the store something is wrong"
-                );
+            let tmp = store.events.get(id);
+            if (tmp === undefined) {
+                store.addEvent(id);
+                tmp = store.events.get(id);
+
+                if (tmp === undefined) throw new Error("Cant find event");
+            }
 
             return tmp;
         },

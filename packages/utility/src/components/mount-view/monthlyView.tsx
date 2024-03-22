@@ -4,86 +4,97 @@ import Cell from "./cell";
 import {observer} from "mobx-react-lite";
 import {useDateTools} from "../../utility";
 import classes from "./style/monthly.module.scss";
-import {useInitStore} from "../../store/useStore";
+import {useInitStore, useStore} from "../../store/useStore";
+import {MountViewPropsProvider} from "./useMountViewProps";
+import {EventHandlerProvider} from "../event-handler/useEventHandler";
 
 const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
     (props) => {
         const tools = useDateTools(props.current);
-        const tableSize = [classes.small, classes.medium, classes.large];
         const countTr = Math.ceil(
             (tools.getMonth().countDay + tools.getMonthStartWith()) / 7
         );
+        const store = useStore();
 
         useInitStore();
 
         return (
-            <>
-                <table className={`${classes.table}`} border={0}>
-                    <thead>
-                        <tr>
-                            {tools.getWeakDayName(false).map((item, index) => (
-                                <th key={index}>{item}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {new Array(countTr).fill("w").map((i, index) => {
-                            const rangeOfDays = {
-                                start: index * 7 - tools.getMonthStartWith(),
-                                end: (index + 1) * 7,
-                            };
+            <MountViewPropsProvider value={props}>
+                <EventHandlerProvider events={[]}>
+                    <table className={`${classes.table}`} border={0}>
+                        <thead>
+                            <tr>
+                                {tools
+                                    .getWeakDayName(false)
+                                    .map((item, index) => (
+                                        <th key={index}>{item}</th>
+                                    ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {new Array(countTr).fill("w").map((i, index) => {
+                                const rangeOfDays = {
+                                    start:
+                                        index * 7 - tools.getMonthStartWith(),
+                                    end: (index + 1) * 7,
+                                };
 
-                            return (
-                                <tr>
-                                    {index === 0 && (
-                                        <FillStart
-                                            emptyCount={rangeOfDays.start * -1}
-                                            current={props.current}
-                                        />
-                                    )}
-                                    {new Array(7).fill("d").map((i, index) => {
-                                        const day =
-                                            index + 1 + rangeOfDays.start;
-                                        if (
-                                            day <= tools.getMonth().countDay &&
-                                            day > 0
-                                        )
-                                            return (
-                                                <Cell
-                                                    date={
-                                                        tools.current.format(
-                                                            "YYYY-MM-"
-                                                        ) + day
-                                                    }
-                                                    key={`${index}-${
-                                                        tools.current.format(
-                                                            "YYYY-MM-"
-                                                        ) + day
-                                                    }`}
-                                                    cellIndexInWeek={index}
-                                                    renderCell={
-                                                        props.renderCell
-                                                    }
-                                                    renderEvent={
-                                                        props.renderEvent
-                                                    }
-                                                />
-                                            );
+                                return (
+                                    <tr>
+                                        {index === 0 && (
+                                            <FillStart
+                                                emptyCount={
+                                                    rangeOfDays.start * -1
+                                                }
+                                                current={props.current}
+                                            />
+                                        )}
+                                        {new Array(7)
+                                            .fill("d")
+                                            .map((i, index) => {
+                                                const day =
+                                                    index +
+                                                    1 +
+                                                    rangeOfDays.start;
+                                                if (
+                                                    day <=
+                                                        tools.getMonth()
+                                                            .countDay &&
+                                                    day > 0
+                                                )
+                                                    return (
+                                                        <Cell
+                                                            date={
+                                                                tools.current.format(
+                                                                    "YYYY-MM-"
+                                                                ) + day
+                                                            }
+                                                            key={`${index}-${
+                                                                tools.current.format(
+                                                                    "YYYY-MM-"
+                                                                ) + day
+                                                            }`}
+                                                            cellIndexInWeek={
+                                                                index
+                                                            }
+                                                        />
+                                                    );
 
-                                        return null;
-                                    })}
-                                    {index === countTr - 1 && (
-                                        <FillEnd
-                                            current={props.current}
-                                            emptyCount={0}
-                                        />
-                                    )}
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </>
+                                                return null;
+                                            })}
+                                        {index === countTr - 1 && (
+                                            <FillEnd
+                                                current={props.current}
+                                                emptyCount={0}
+                                            />
+                                        )}
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </EventHandlerProvider>
+            </MountViewPropsProvider>
         );
     }
 );

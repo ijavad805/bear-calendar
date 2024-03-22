@@ -6,6 +6,7 @@ export const eventHandlerModel = types
         event: types.identifierNumber,
         priority: types.maybeNull(types.number),
         isRendering: types.optional(types.boolean, false),
+        isHover: types.optional(types.boolean, false),
     })
     .actions((self) => ({
         setPriority(index: number) {
@@ -13,10 +14,16 @@ export const eventHandlerModel = types
                 self.priority = index;
             }
         },
-        startRendering(){
+        startRendering() {
             self.isRendering = true;
         },
-        stopRendering(){
+        stopRendering() {
             self.isRendering = false;
-        }
+        },
+        startHovering() {
+            self.isHover = true;
+        },
+        endHovering() {
+            self.isHover = false;
+        },
     }));

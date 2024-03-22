@@ -24,10 +24,34 @@ const meta: Meta<typeof BearCalendar> = {
                 events={[
                     {
                         id: 1,
-                        title: "test",
+                        title: "test 1",
                         date: {
                             start: "2024-03-10",
-                            end: "2024-03-10",
+                            end: "2024-03-15",
+                        },
+                    },
+                    {
+                        id: 2,
+                        title: "test 2",
+                        date: {
+                            start: "2024-03-12",
+                            end: "2024-03-27",
+                        },
+                    },
+                    {
+                        id: 3,
+                        title: "test 3",
+                        date: {
+                            start: "2024-03-14",
+                            end: "2024-03-15",
+                        },
+                    },
+                    {
+                        id: 4,
+                        title: "test 4",
+                        date: {
+                            start: "2024-03-15",
+                            end: "2024-03-17",
                         },
                     },
                 ]}

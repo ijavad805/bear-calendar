@@ -6,7 +6,8 @@ import {
     useStore,
 } from "@bear-calendar/utility";
 import {Body} from "../body";
-import classes from "./style.module.scss";
+import classes from "./style/style.module.scss";
+import Cell from "./cell";
 
 export const Monthly = observer(() => {
     const mainProps = useCalendarProps();
@@ -29,21 +30,13 @@ export const Monthly = observer(() => {
         >
             <MonthlyView
                 current={current.format()}
-                renderCell={(props) => (
-                    <div className={classes.cell}>
-                        <div className={classes.header}>
-                            <div className={classes.month}>
-                                {props.day.format("MMM")}
-                            </div>
-                            <div className={classes.day}>
-                                {props.day.format("DD")}
-                            </div>
-                        </div>
-                        <div className={classes.body}>{props.events}</div>
-                    </div>
-                )}
-                renderEvent={(event, attr) => (
-                    <div className={classes.event} {...attr}>
+                renderCell={(props) => <Cell {...props} />}
+                renderEvent={(event, isHover) => (
+                    <div
+                        className={`${classes.eventsItem} ${
+                            isHover ? classes.hover : ""
+                        }`}
+                    >
                         {event.title}
                     </div>
                 )}

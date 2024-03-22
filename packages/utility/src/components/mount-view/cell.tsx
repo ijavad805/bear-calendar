@@ -5,25 +5,22 @@ import {Dayjs} from "dayjs";
 import {useStore} from "../../store";
 import {BearCalendarMonthlyViewRenderCellProps} from "./monthly.types";
 import {IEvent} from "../../types";
+import {useMountViewProps} from "./useMountViewProps";
+import {toJS} from "mobx";
+import {EventHandler} from "../event-handler";
 
 interface IProps {
     date: string;
     disabled?: boolean;
     onClick?: () => void;
     cellIndexInWeek: number;
-    renderCell: (
-        props: BearCalendarMonthlyViewRenderCellProps
-    ) => React.ReactNode;
-    renderEvent: (
-        event: IEvent,
-        attr: HtmlHTMLAttributes<HTMLDivElement>
-    ) => React.ReactNode;
 }
 const Cell: React.FC<IProps> = observer((props) => {
     const dayjs = useDayjs();
     const {
         dayStore: {get},
     } = useStore();
+    const mountViewProps = useMountViewProps();
     const thisDay = dayjs(props.date);
     const thisDayStore = get(thisDay.calendar("gregory").format());
     const isPast = useMemo(
@@ -34,31 +31,33 @@ const Cell: React.FC<IProps> = observer((props) => {
         () => thisDay.format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD"),
         [props.date]
     );
-    const cellClasses = () => {
-        const tmp: string[] = [];
-
-        if (props.disabled) {
-            tmp.push(classes.disabled);
-        }
-
-        return tmp.join(" ");
-    };
+    const cellElm = document.querySelector(`.${classes.cell}`);
+    const cellWidth = cellElm ? cellElm.clientWidth - 1 : 0;
 
     return (
         <td className={classes.cell}>
-            {props.renderCell({
+            {mountViewProps.renderCell({
                 day: thisDay,
                 isDisabled: props.disabled || false,
                 isPast,
                 isToday,
-                events: (
-                    <>
-                        {thisDayStore &&
-                            thisDayStore.events.map((i) =>
-                                props.renderEvent(i, {})
-                            )}
-                    </>
-                ),
+                eventsNode: thisDayStore ? (
+                    <EventHandler
+                        currentCellIndex={props.cellIndexInWeek}
+                        eachCellWidth={cellWidth}
+                        events={thisDayStore.events}
+                        maxCellIndex={7}
+                        maxRenderPerCell={5}
+                        renderItem={mountViewProps.renderEvent}
+                        calcDiffRange={(event) => {
+                            return (
+                                dayjs(event.date.end).diff(props.date, "day") +
+                                1
+                            );
+                        }}
+                    />
+                ) : null,
+                eventList: thisDayStore ? thisDayStore.events : [],
             })}
         </td>
     );
