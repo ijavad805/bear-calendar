@@ -15,6 +15,7 @@ interface IProps {
     maxCellIndex: number;
     maxRenderPerCell: number;
 }
+let parentHeight = 0;
 export const EventHandler: React.FC<IProps> = observer((props) => {
     const store = useEventHandler();
     const events = useMemo(() => {
@@ -49,7 +50,7 @@ export const EventHandler: React.FC<IProps> = observer((props) => {
         });
     }, [props.events]);
 
-    const logic = (event: IEventModel): React.CSSProperties => {
+    const logic = (event: IEventModel,height: number): React.CSSProperties => {
         const thisEvent = store.getById(event.id);
 
         if (thisEvent.isRendering === false) {
@@ -71,7 +72,7 @@ export const EventHandler: React.FC<IProps> = observer((props) => {
             {events.map((event) => {
                 const priority = store.getById(event.id).priority;
                 if (priority === null) return null;
-                return props.renderItem(event, priority, logic(event));
+                return <div id={`bear-calendar-event-handler-${event.id}`}>{props.renderItem(event, priority, logic(event))}</div>
             })}
         </>
     );

@@ -1,13 +1,10 @@
 import React from "react";
-import {
-    BearCalendarMonthViewSize,
-    BearCalendarMonthlyViewProps,
-} from "./monthly.types";
+import {BearCalendarMonthlyViewProps} from "./monthly.types";
 import Cell from "./cell";
 import {observer} from "mobx-react-lite";
 import {useDateTools} from "../../utility";
 import classes from "./style/monthly.module.scss";
-import { useInitStore } from "../../store/useStore";
+import {useInitStore} from "../../store/useStore";
 
 const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
     (props) => {
@@ -21,12 +18,7 @@ const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
 
         return (
             <>
-                <table
-                    className={`${classes.table} ${
-                        tableSize[props.size || BearCalendarMonthViewSize.Large]
-                    }`}
-                    border={0}
-                >
+                <table className={`${classes.table}`} border={0}>
                     <thead>
                         <tr>
                             {tools.getWeakDayName(false).map((item, index) => (
@@ -69,6 +61,12 @@ const MonthlyView: React.FC<BearCalendarMonthlyViewProps> = observer(
                                                         ) + day
                                                     }`}
                                                     cellIndexInWeek={index}
+                                                    renderCell={
+                                                        props.renderCell
+                                                    }
+                                                    renderEvent={
+                                                        props.renderEvent
+                                                    }
                                                 />
                                             );
 

@@ -27,7 +27,27 @@ export const Monthly = observer(() => {
                 </div>
             }
         >
-            <MonthlyView current={current.format()} />
+            <MonthlyView
+                current={current.format()}
+                renderCell={(props) => (
+                    <div className={classes.cell}>
+                        <div className={classes.header}>
+                            <div className={classes.month}>
+                                {props.day.format("MMM")}
+                            </div>
+                            <div className={classes.day}>
+                                {props.day.format("DD")}
+                            </div>
+                        </div>
+                        <div className={classes.body}>{props.events}</div>
+                    </div>
+                )}
+                renderEvent={(event, attr) => (
+                    <div className={classes.event} {...attr}>
+                        {event.title}
+                    </div>
+                )}
+            />
         </Body>
     );
 });
