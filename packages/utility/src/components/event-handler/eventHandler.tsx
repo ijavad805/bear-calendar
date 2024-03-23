@@ -6,7 +6,7 @@ import {EventLogic} from "./eventLogic";
 import {toJS} from "mobx";
 import {BearCalendarMonthlyViewProps} from "../mount-view";
 
-interface IProps {
+export interface IEventHandlerProps {
     events: IEventModel[];
     eachCellWidth: number;
     currentCellIndex: number;
@@ -16,7 +16,7 @@ interface IProps {
     calcDiffRange: (event: IEventModel) => number;
 }
 let prevElmId = ``;
-export const EventHandler: React.FC<IProps> = observer((props) => {
+export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
     const store = useEventHandler();
     const events = useMemo(() => {
         const tryFindPriority = (): number => {
@@ -56,6 +56,9 @@ export const EventHandler: React.FC<IProps> = observer((props) => {
             {events.map((event, index) => {
                 const priority = store.getById(event.id).priority;
                 const id = `bear-calendar-event-handler-${event.id}`;
+                const uniqueId = `bear-calendar-event-handler-${
+                    event.id
+                }-${Math.ceil(Math.random() * 100)}`;
                 const prevId_ = prevElmId;
                 prevElmId = id;
 
@@ -64,6 +67,7 @@ export const EventHandler: React.FC<IProps> = observer((props) => {
                     <EventLogic
                         prevId={prevId_}
                         id={id}
+                        uniqueId={uniqueId}
                         event={event}
                         currentCellIndex={props.currentCellIndex}
                         maxCellIndex={props.maxCellIndex}
@@ -72,6 +76,8 @@ export const EventHandler: React.FC<IProps> = observer((props) => {
                         calcDiffRange={() => props.calcDiffRange(event)}
                         renderItem={props.renderItem}
                         key={`${index}-${id}`}
+                        index={index}
+                        maxPerCellEvent={props.maxRenderPerCell}
                     />
                 );
             })}

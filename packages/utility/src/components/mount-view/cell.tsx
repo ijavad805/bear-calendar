@@ -58,7 +58,7 @@ const Cell: React.FC<IProps> = observer((props) => {
                         eachCellWidth={cellWidth}
                         events={thisDayStore.events}
                         maxCellIndex={7}
-                        maxRenderPerCell={5}
+                        maxRenderPerCell={2}
                         renderItem={mountViewProps.renderEvent}
                         calcDiffRange={(event) => {
                             return (

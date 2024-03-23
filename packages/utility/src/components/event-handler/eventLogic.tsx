@@ -7,9 +7,13 @@ import {observer} from "mobx-react-lite";
 import {BearCalendarMonthlyViewProps} from "../mount-view";
 import {useEventPriority} from "./useEventPriority";
 import {useEventDNDLogic} from "./useEventDNDLogic";
+import { NumberValue } from "@storybook/blocks";
 
 export interface IEventLogicProps {
     id: string;
+    index: number;
+    maxPerCellEvent: number;
+    uniqueId: string;
     prevId: string;
     event: IEventModel;
     currentCellIndex: number;
@@ -28,6 +32,7 @@ export const EventLogic: React.FC<IEventLogicProps> = observer((props) => {
 
     return (
         <div
+            id={props.uniqueId}
             style={{
                 ...(dndLogic.style as React.CSSProperties),
                 ...priorityLogic.style,

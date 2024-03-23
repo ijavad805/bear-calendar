@@ -1,4 +1,4 @@
 export * from "./observer";
 export * from "./useDateTools";
 export * from "./useDayjs";
-export * from "./findByClassAsync";
+export * from "./findByQueryAsync";

@@ -24,6 +24,9 @@ export const enLocale = {
     ],
     back: "Back",
     today: "Today",
+    more: "+{0} More",
+
+    // config locale
     startDay: 0, // Monday
     direction: "ltr"
 };
