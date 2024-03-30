@@ -10,7 +10,6 @@ import classes from "./style/style.module.scss";
 import Cell from "./cell";
 
 export const Monthly = observer(() => {
-    const mainProps = useCalendarProps();
     const {current, changeCurrent} = useStore();
 
     return (

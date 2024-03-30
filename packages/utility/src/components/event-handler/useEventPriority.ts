@@ -44,7 +44,7 @@ export const useEventPriority = (props: IEventLogicProps) => {
 
             // 1, it might be placed in more option
             if (props.maxRenderPerCell <= props.index) {
-                thisEvent.startRender(props.eachCellWidth);
+                thisEvent.startRender(props.eachCellWidth,"it might be placed in more option");
                 return;
             }
 
@@ -57,10 +57,10 @@ export const useEventPriority = (props: IEventLogicProps) => {
 
             // 2. it is last of the cells
             if (props.currentCellIndex === props.maxCellIndex - 1) {
-                thisEvent.startRender(props.eachCellWidth);
+                thisEvent.startRender(props.eachCellWidth,"it is last of the cells");
             } else if (props.calcDiffRange() === 1) {
                 // 3. it is end date
-                thisEvent.startRender(props.eachCellWidth);
+                thisEvent.startRender(props.eachCellWidth,"it is end date");
             }
         })();
     }, []);

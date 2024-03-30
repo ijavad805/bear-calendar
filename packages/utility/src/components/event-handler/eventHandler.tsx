@@ -8,6 +8,7 @@ import {BearCalendarMonthlyViewProps} from "../mount-view";
 import {ShowMore} from "./show-more";
 
 export interface IEventHandlerProps {
+    cellId: string;
     events: IEventModel[];
     eachCellWidth: number;
     eachCellHeight: number;
@@ -31,26 +32,36 @@ export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
             while (usedPriorities.has(priority)) {
                 priority++;
             }
-
             return priority;
         };
-        props.events.forEach((event, index) => {
+        const sortEvents = (events: IEventModel[]) => {
+            return toJS(events).sort((a_, b_) => {
+                const a = store.getById(a_.id);
+                const b = store.getById(b_.id);
+                if (a.priority !== null && b.priority !== null) {
+                    return a.priority - b.priority;
+                } else if (a.priority === null && b.priority !== null) {
+                    return 1; // Move events with null priority to the end
+                } else if (a.priority !== null && b.priority === null) {
+                    return -1; // Move events with null priority to the beginning
+                } else {
+                    // Both priorities are null, maintain their original order
+                    return 0;
+                }
+            });
+        };
+        sortEvents(props.events).forEach((event, index) => {
+            if (index > props.maxRenderPerCell) {
+                return;
+            }
+
             const tmp = store.getById(event.id);
             if (tmp.priority === null) {
                 tmp.setPriority(tryFindPriority());
             }
         });
 
-        return props.events.slice().sort((a_, b_) => {
-            const a = store.getById(a_.id);
-            const b = store.getById(b_.id);
-
-            if (a.priority !== null && b.priority !== null) {
-                return a.priority - b.priority;
-            }
-
-            return 1;
-        });
+        return sortEvents(props.events);
     }, [props.events]);
 
     return (
@@ -58,9 +69,7 @@ export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
             {events.map((event, index) => {
                 const priority = store.getById(event.id).priority;
                 const id = `bear-calendar-event-handler-${event.id}`;
-                const uniqueId = `bear-calendar-event-handler-${
-                    event.id
-                }-${Math.ceil(Math.random() * 100)}`;
+                const uniqueId = `bear-calendar-event-handler-${event.id}-${props.cellId}`;
                 const prevId_ = prevElmId;
                 prevElmId = id;
 

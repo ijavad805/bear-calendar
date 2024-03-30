@@ -54,6 +54,38 @@ const meta: Meta<typeof BearCalendar> = {
                             end: "2024-03-17",
                         },
                     },
+                    {
+                        id: 5,
+                        title: "test 5",
+                        date: {
+                            start: "2024-03-10",
+                            end: "2024-03-15",
+                        },
+                    },
+                    {
+                        id: 6,
+                        title: "test 6",
+                        date: {
+                            start: "2024-03-12",
+                            end: "2024-03-27",
+                        },
+                    },
+                    {
+                        id: 7,
+                        title: "test 7",
+                        date: {
+                            start: "2024-03-14",
+                            end: "2024-03-15",
+                        },
+                    },
+                    {
+                        id: 8,
+                        title: "test 8",
+                        date: {
+                            start: "2024-03-15",
+                            end: "2024-03-17",
+                        },
+                    },
                 ]}
             />
         );

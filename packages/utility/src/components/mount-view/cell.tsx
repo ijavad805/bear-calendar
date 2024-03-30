@@ -68,6 +68,7 @@ const Cell: React.FC<IProps> = observer((props) => {
                                 1
                             );
                         }}
+                        cellId={thisDay.format("DD")}
                     />
                 ) : null,
                 eventList: thisDayStore ? thisDayStore.events : [],

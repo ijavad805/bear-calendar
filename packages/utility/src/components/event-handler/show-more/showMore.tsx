@@ -47,38 +47,36 @@ export const ShowMore: React.FC<IEventHandlerProps> = (props) => {
             >
                 {t("more", [countShowMore.toString()])}
             </Button>
-            <div
-                className={`${classes.events} ${
-                    visible ? classes.visible : ""
-                }`}
-            >
-                {props.events.map((event, index) => {
-                    const id = `bear-calendar-event-handler-${event.id}`;
-                    const uniqueId = `bear-calendar-event-handler-${
-                        event.id
-                    }-${Math.ceil(Math.random() * 100)}`;
-                    const prevId_ = prevElmId;
-                    prevElmId = id;
+            {visible && (
+                <div className={`${classes.events}`}>
+                    {props.events.map((event, index) => {
+                        const id = `bear-calendar-event-handler-${event.id}`;
+                        const uniqueId = `bear-calendar-event-handler-${
+                            event.id
+                        }-${Math.ceil(Math.random() * 100)}`;
+                        const prevId_ = prevElmId;
+                        prevElmId = id;
 
-                    return (
-                        <EventLogic
-                            prevId={prevId_}
-                            id={id}
-                            uniqueId={uniqueId}
-                            event={event}
-                            currentCellIndex={props.currentCellIndex}
-                            maxCellIndex={props.maxCellIndex}
-                            eachCellHeight={props.eachCellHeight}
-                            eachCellWidth={props.eachCellWidth}
-                            calcDiffRange={() => props.calcDiffRange(event)}
-                            renderItem={props.renderItem}
-                            key={`${index}-${id}`}
-                            index={index}
-                            maxRenderPerCell={props.maxRenderPerCell}
-                        />
-                    );
-                })}
-            </div>
+                        return (
+                            <EventLogic
+                                prevId={prevId_}
+                                id={id}
+                                uniqueId={uniqueId}
+                                event={event}
+                                currentCellIndex={props.currentCellIndex}
+                                maxCellIndex={props.maxCellIndex}
+                                eachCellHeight={props.eachCellHeight}
+                                eachCellWidth={props.eachCellWidth}
+                                calcDiffRange={() => props.calcDiffRange(event)}
+                                renderItem={props.renderItem}
+                                key={`${index}-${id}`}
+                                index={index}
+                                maxRenderPerCell={props.maxRenderPerCell}
+                            />
+                        );
+                    })}
+                </div>
+            )}
         </div>
     );
 };

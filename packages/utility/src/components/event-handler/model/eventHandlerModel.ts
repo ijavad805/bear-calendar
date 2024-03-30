@@ -28,7 +28,7 @@ export const eventHandlerModel = types
         setLastId(id: string) {
             self.lastId = id;
         },
-        startRender(cellWidth: number) {
+        startRender(cellWidth: number, renderReason: string) {
             const mainId = self.mainId;
             const lastId = self.lastId;
             self.mainId = null;
@@ -41,7 +41,7 @@ export const eventHandlerModel = types
                 const lastElmPlace = (await findByQueryAsync(
                     `#${lastId}`
                 )) as HTMLDivElement;
-
+                elm.setAttribute("data-reason", renderReason);
                 if (elm && lastElmPlace) {
                     const elmRect = elm.getBoundingClientRect();
                     const lastElmPlaceRect =
@@ -55,7 +55,6 @@ export const eventHandlerModel = types
                     elm.style.zIndex = "1";
                 }
             })();
-         
 
             // in tree level it should be start to render
             // 1. when its placed in the more button
