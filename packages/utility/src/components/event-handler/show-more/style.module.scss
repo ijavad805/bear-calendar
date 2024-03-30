@@ -1,0 +1,27 @@
+.showMore {
+    position: absolute;
+    width: 100%;
+
+
+    .events {
+        display: none;
+        flex-direction: column;
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        position: absolute;
+        bottom: 0;
+        width: 150px;
+        height: 150px;
+        z-index: 10;
+        padding: var(--space-sm);
+        gap: var(--space-sm);
+        overflow-y: auto;
+        overflow-x: hidden;
+        border-radius: var(--corner);
+
+        &.visible {
+            display: flex;
+        }
+    }
+}

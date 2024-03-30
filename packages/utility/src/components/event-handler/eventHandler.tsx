@@ -5,10 +5,12 @@ import {EventHandlerProvider, useEventHandler} from "./useEventHandler";
 import {EventLogic} from "./eventLogic";
 import {toJS} from "mobx";
 import {BearCalendarMonthlyViewProps} from "../mount-view";
+import {ShowMore} from "./show-more";
 
 export interface IEventHandlerProps {
     events: IEventModel[];
     eachCellWidth: number;
+    eachCellHeight: number;
     currentCellIndex: number;
     maxCellIndex: number;
     maxRenderPerCell: number;
@@ -72,15 +74,17 @@ export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
                         currentCellIndex={props.currentCellIndex}
                         maxCellIndex={props.maxCellIndex}
                         priority={priority}
-                        cellWidth={props.eachCellWidth}
+                        eachCellWidth={props.eachCellWidth}
+                        eachCellHeight={props.eachCellHeight}
                         calcDiffRange={() => props.calcDiffRange(event)}
                         renderItem={props.renderItem}
                         key={`${index}-${id}`}
                         index={index}
-                        maxPerCellEvent={props.maxRenderPerCell}
+                        maxRenderPerCell={props.maxRenderPerCell}
                     />
                 );
             })}
+            {events.length > props.maxRenderPerCell && <ShowMore {...props} />}
         </>
     );
 });

@@ -1,25 +1,25 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {IEventModel} from "../../store";
 import {useEventHandler} from "./useEventHandler";
-import dayjs from "dayjs";
 import classes from "./style.module.scss";
 import {observer} from "mobx-react-lite";
 import {BearCalendarMonthlyViewProps} from "../mount-view";
 import {useEventPriority} from "./useEventPriority";
 import {useEventDNDLogic} from "./useEventDNDLogic";
-import { NumberValue } from "@storybook/blocks";
 
+export const classNameEventLogicItem = "event-logic-item";
 export interface IEventLogicProps {
     id: string;
     index: number;
-    maxPerCellEvent: number;
+    maxRenderPerCell: number;
     uniqueId: string;
     prevId: string;
     event: IEventModel;
     currentCellIndex: number;
     maxCellIndex: number;
-    cellWidth: number;
-    priority: number;
+    eachCellWidth: number;
+    eachCellHeight: number;
+    priority?: number;
     calcDiffRange: () => number;
     renderItem: BearCalendarMonthlyViewProps["renderEvent"];
 }
@@ -37,7 +37,7 @@ export const EventLogic: React.FC<IEventLogicProps> = observer((props) => {
                 ...(dndLogic.style as React.CSSProperties),
                 ...priorityLogic.style,
             }}
-            className={`${classes.eventLogic} ${props.id}`}
+            className={`${classNameEventLogicItem} ${classes.eventLogic} ${props.id}`}
             onMouseEnter={() => {
                 thisEvent.startHovering();
             }}

@@ -2,8 +2,14 @@
     font-family: Arial, sans-serif;
 
     * {
+        --primary: #3788d8;
+        --primary-container: #2f71b3;
+        --secondary: rgb(216, 146, 16);
+        --secondary-container: rgb(173, 117, 13);
+        --surface: #fff;
+        --text: rgb(61, 61, 61);
+        --text-hover: #141414;
         --border-color: rgba(0, 0, 0, 0.125);
-        --primary: red;
         --disable-day-color: #f0f0f0;
         --past-date-dots: #f5ffd0;
         --space-sm: 2px;

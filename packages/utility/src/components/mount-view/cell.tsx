@@ -33,6 +33,7 @@ const Cell: React.FC<IProps> = observer((props) => {
     );
     const cellElm = document.querySelector(`.${classes.cell}`);
     const cellWidth = cellElm ? cellElm.clientWidth - 1 : 0;
+    const cellHeight = cellElm ? cellElm.clientHeight : 0;
     const drop = useDroppable({
         date: thisDay,
         onDrop: (event, startDate, endDate) => {
@@ -56,6 +57,7 @@ const Cell: React.FC<IProps> = observer((props) => {
                     <EventHandler
                         currentCellIndex={props.cellIndexInWeek}
                         eachCellWidth={cellWidth}
+                        eachCellHeight={cellHeight}
                         events={thisDayStore.events}
                         maxCellIndex={7}
                         maxRenderPerCell={2}

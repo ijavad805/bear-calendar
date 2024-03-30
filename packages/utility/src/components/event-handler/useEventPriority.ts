@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {IEventLogicProps} from "./eventLogic";
 import {useEventHandler} from "./useEventHandler";
-import dayjs from "dayjs";
 import {findByQueryAsync} from "../../utility";
 
 export const useEventPriority = (props: IEventLogicProps) => {
@@ -17,6 +16,17 @@ export const useEventPriority = (props: IEventLogicProps) => {
 
     useEffect(() => {
         (async () => {
+            if (props.priority === undefined) {
+                setStyle({
+                    visibility: "visible",
+                    position: "relative",
+                    userSelect: "none",
+                    WebkitUserSelect: "none",
+                });
+
+                return;
+            }
+
             const prevElm = (await findByQueryAsync(
                 `.${props.id}`
             )) as HTMLDivElement;
@@ -33,8 +43,8 @@ export const useEventPriority = (props: IEventLogicProps) => {
             });
 
             // 1, it might be placed in more option
-            if(props.maxPerCellEvent <= props.index){
-                thisEvent.startRender(props.cellWidth);
+            if (props.maxRenderPerCell <= props.index) {
+                thisEvent.startRender(props.eachCellWidth);
                 return;
             }
 
@@ -47,15 +57,11 @@ export const useEventPriority = (props: IEventLogicProps) => {
 
             // 2. it is last of the cells
             if (props.currentCellIndex === props.maxCellIndex - 1) {
-                thisEvent.startRender(props.cellWidth);
+                thisEvent.startRender(props.eachCellWidth);
             } else if (props.calcDiffRange() === 1) {
                 // 3. it is end date
-                thisEvent.startRender(props.cellWidth);
+                thisEvent.startRender(props.eachCellWidth);
             }
-
-
-
-       
         })();
     }, []);
 
