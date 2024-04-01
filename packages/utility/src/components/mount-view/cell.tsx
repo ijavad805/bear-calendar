@@ -60,7 +60,7 @@ const Cell: React.FC<IProps> = observer((props) => {
                         currentCellIndex={props.cellIndexInWeek}
                         events={thisDayStore.events}
                         maxCellIndex={7}
-                        maxRenderPerCell={2}
+                        maxRenderPerCell={4}
                         renderItem={mountViewProps.renderEvent}
                         calcDiffRange={(event) => {
                             return (

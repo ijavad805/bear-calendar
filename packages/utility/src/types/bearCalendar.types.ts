@@ -14,7 +14,7 @@ export interface BearCalendarCellProps
     extends React.AllHTMLAttributes<HTMLTableCellElement> {
     children?: React.ReactNode;
 }
-export interface IEvent {
+export interface IEvent<T = unknown> {
     id: number;
     title: string;
     date: {
@@ -22,6 +22,7 @@ export interface IEvent {
         end: string;
     };
     disabled?: boolean;
+    extraData?: T;
 }
 export interface BearCalendarEventProps
     extends React.AllHTMLAttributes<HTMLDivElement> {

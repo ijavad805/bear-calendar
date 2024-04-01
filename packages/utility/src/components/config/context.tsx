@@ -16,8 +16,7 @@ export const useCalendarProps = () => {
     const context = useContext(ContextCalendar);
     if (!context)
         throw new Error(
-            `Please use useCalendar inside Calendar Provider ${ __filename}`,
-           
+            `Please use useCalendar inside Calendar Provider ${__filename}`
         );
 
     return context;
@@ -34,6 +33,7 @@ export const CalendarProvider: React.FC<IProps> = (props) => {
                     id: event.id,
                     disabled: event.disabled,
                     title: event.title,
+                    extraData: event.extraData,
                 }))
             );
         }

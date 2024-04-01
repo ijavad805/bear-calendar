@@ -10,8 +10,10 @@ export const eventModel = types.model("eventModel", {
     title: types.string,
     date: eventDateRangeModel,
     disabled: types.optional(types.boolean, false),
+    extraData: types.optional(types.frozen(), {}),
 });
 
 export interface IEventModel extends Instance<typeof eventModel> {}
 export interface IEventModelSnapshotIn extends SnapshotIn<typeof eventModel> {}
-export interface IEventRangeDateSnapshotIn extends SnapshotIn<typeof eventDateRangeModel> {}
+export interface IEventRangeDateSnapshotIn
+    extends SnapshotIn<typeof eventDateRangeModel> {}
