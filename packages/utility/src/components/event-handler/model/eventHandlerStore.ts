@@ -9,6 +9,7 @@ export const eventHandlerStore = types
         events: types.optional(types.map(eventHandlerModel), {}),
         draggingEvent: types.maybeNull(eventModel),
         droppingEventDays: types.optional(types.array(types.string), []),
+        rerender: types.optional(types.number, 0),
     })
     .actions((store) => ({
         initialize(events: IEventModel[]) {
@@ -33,9 +34,15 @@ export const eventHandlerStore = types
         stopDragging() {
             store.droppingEventDays.replace([]);
             store.draggingEvent = null;
+            store.events.replace({});
+            store.rerender = Math.random();
+
         },
         clear() {
-            store.events.clear();
+            store.events.replace({});
+        },
+        forceRerender() {
+            store.rerender = Math.random();
         },
     }))
     .views((store) => ({

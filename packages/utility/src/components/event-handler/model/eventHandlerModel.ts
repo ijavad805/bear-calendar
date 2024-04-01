@@ -9,8 +9,8 @@ export const eventHandlerModel = types
         isHover: types.optional(types.boolean, false),
     })
     .actions((self) => ({
-        setPriority(index: number) {
-            if (self.priority === null) {
+        setPriority(index: number | null) {
+            if (self.priority === null || index === null) {
                 self.priority = index;
             }
         },

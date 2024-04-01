@@ -1,7 +1,5 @@
-import {useState} from "react";
 import {IEventLogicProps} from "./eventLogic";
 import {useEventHandler} from "./useEventHandler";
-import {applySnapshot} from "mobx-state-tree";
 
 export const useEventDNDLogic = (props: IEventLogicProps) => {
     const store = useEventHandler();
@@ -14,7 +12,7 @@ export const useEventDNDLogic = (props: IEventLogicProps) => {
         store.startDragging(props.event);
     };
     const handleEndDrag = () => {
-        applySnapshot(store, {});
+        store.stopDragging();
     };
 
     return {

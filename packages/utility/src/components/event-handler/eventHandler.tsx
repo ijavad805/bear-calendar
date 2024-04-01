@@ -6,6 +6,8 @@ import {EventLogic} from "./eventLogic";
 import {toJS} from "mobx";
 import {BearCalendarMonthlyViewProps} from "../mount-view";
 import {ShowMore} from "./show-more";
+import {getRoot, getSnapshot} from "mobx-state-tree";
+import {IEventHandlerStore} from "./model/eventHandlerStore";
 
 export interface IEventHandlerProps {
     cellId: string;
@@ -63,7 +65,7 @@ export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
         });
 
         return sortEvents(props.events);
-    }, [props.events]);
+    }, [props.events, store.rerender]);
 
     return (
         <>
@@ -86,7 +88,7 @@ export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
                         priority={priority}
                         calcDiffRange={() => props.calcDiffRange(event)}
                         renderItem={props.renderItem}
-                        key={`${index}-${id}`}
+                        key={`${index}-${id}-${event.date.start}`}
                         index={index}
                         maxRenderPerCell={props.maxRenderPerCell}
                         findNextCell={props.findNextCell}

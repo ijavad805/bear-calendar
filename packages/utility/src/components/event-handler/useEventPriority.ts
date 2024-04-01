@@ -76,7 +76,6 @@ export const useEventPriority = (props: IEventLogicProps) => {
                         if (res) return;
                     }
                 };
-
                 if (
                     props.currentCellIndex === 0 ||
                     props.isStartFunc(props.event)
@@ -94,9 +93,11 @@ export const useEventPriority = (props: IEventLogicProps) => {
                 ) {
                     render();
                 }
-            } catch (e) {}
+            } catch (e) {
+                console.error(e);
+            }
         })();
-    }, [rerender]);
+    }, [rerender, thisEvent.priority]);
 
     useEffect(() => {
         const forceRerenderPage = () => forceRender({update: 0});
