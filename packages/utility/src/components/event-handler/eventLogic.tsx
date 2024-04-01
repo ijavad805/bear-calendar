@@ -17,11 +17,11 @@ export interface IEventLogicProps {
     event: IEventModel;
     currentCellIndex: number;
     maxCellIndex: number;
-    eachCellWidth: number;
-    eachCellHeight: number;
     priority?: number;
     calcDiffRange: () => number;
     renderItem: BearCalendarMonthlyViewProps["renderEvent"];
+    findNextCell: (i: number) => HTMLDivElement | undefined;
+    isStartFunc: (event: IEventModel) => boolean;
 }
 
 export const EventLogic: React.FC<IEventLogicProps> = observer((props) => {

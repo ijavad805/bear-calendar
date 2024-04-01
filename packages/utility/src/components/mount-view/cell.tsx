@@ -1,4 +1,4 @@
-import React, {HtmlHTMLAttributes, useMemo} from "react";
+import React, {HtmlHTMLAttributes, useEffect, useMemo, useState} from "react";
 import {observer, useDateTools, useDayjs} from "../../utility";
 import classes from "./style/cell.module.scss";
 import {Dayjs} from "dayjs";
@@ -31,9 +31,7 @@ const Cell: React.FC<IProps> = observer((props) => {
         () => thisDay.format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD"),
         [props.date]
     );
-    const cellElm = document.querySelector(`.${classes.cell}`);
-    const cellWidth = cellElm ? cellElm.clientWidth - 1 : 0;
-    const cellHeight = cellElm ? cellElm.clientHeight : 0;
+
     const drop = useDroppable({
         date: thisDay,
         onDrop: (event, startDate, endDate) => {
@@ -46,6 +44,10 @@ const Cell: React.FC<IProps> = observer((props) => {
             className={classes.cell}
             onDrop={drop.handleDrop}
             onDragOver={drop.handleHover}
+            key={`${thisDay.format("DD")}-${
+                thisDayStore ? thisDayStore.events.length : 0
+            }`}
+            data-date={thisDay.format("YYYY-MM-DD")}
         >
             {mountViewProps.renderCell({
                 day: thisDay,
@@ -56,8 +58,6 @@ const Cell: React.FC<IProps> = observer((props) => {
                 eventsNode: thisDayStore ? (
                     <EventHandler
                         currentCellIndex={props.cellIndexInWeek}
-                        eachCellWidth={cellWidth}
-                        eachCellHeight={cellHeight}
                         events={thisDayStore.events}
                         maxCellIndex={7}
                         maxRenderPerCell={2}
@@ -69,6 +69,22 @@ const Cell: React.FC<IProps> = observer((props) => {
                             );
                         }}
                         cellId={thisDay.format("DD")}
+                        findNextCell={(i) => {
+                            const find = document.querySelector(
+                                `td[data-date="${thisDay
+                                    .clone()
+                                    .add(i, "day")
+                                    .format("YYYY-MM-DD")}"]`
+                            ) as HTMLDivElement;
+
+                            return find;
+                        }}
+                        isStartFunc={(event) => {
+                            return dayjs(event.date.start).isSame(
+                                thisDay,
+                                "day"
+                            );
+                        }}
                     />
                 ) : null,
                 eventList: thisDayStore ? thisDayStore.events : [],

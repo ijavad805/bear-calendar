@@ -118,6 +118,7 @@ const FillStart: React.FC<IProps> = ({emptyCount, current}) => {
                     date={getEndOfPrevMonth(index)}
                     disabled={true}
                     cellIndexInWeek={index}
+                    key={index}
                 />
             ))}
         </>
@@ -146,6 +147,7 @@ const FillEnd: React.FC<IProps> = (props) => {
                     date={getEndOfPrevMonth(index)}
                     disabled={true}
                     cellIndexInWeek={7 - getMonthCountToEnd() + index}
+                    key={index}
                 />
             ))}
         </>

@@ -1,12 +1,14 @@
 import {types} from "mobx-state-tree";
 import {dayModel, IDayModel, IDayModelSnapIn} from "../day";
 import {
+    eventModel,
     IEventModel,
     IEventModelSnapshotIn,
     IEventRangeDateSnapshotIn,
 } from "../event";
 import dayjs from "dayjs";
 import {formats} from "../../const";
+import {toJS} from "mobx";
 export const dayStore = types
     .model("dayStore", {
         days: types.optional(types.map(dayModel), {}),
@@ -29,36 +31,31 @@ export const dayStore = types
             });
         },
         moveEvent(newDate: IEventRangeDateSnapshotIn, event: IEventModel) {
-            const moveEvent_ = (day?: IDayModel) => {
-                day && day.removeEvent(event);
-                for (
-                    let i = 0;
-                    i < dayjs(newDate.start).diff(newDate.end, "day");
-                    i++
-                ) {
-                    const newDate_ = dayjs(newDate.start).add(i, "day");
-                    const newDayModel = store.days.get(
-                        newDate_.format(formats.primary_key)
-                    );
-                    if (newDayModel) {
-                        newDayModel.addEvent(event);
-                    } else {
-                        store.add({
-                            date: newDate_.format(formats.primary_key),
-                            events: [event],
-                        });
-                    }
-                }
-            };
-
             for (
                 let i = 0;
-                i < dayjs(event.date.start).diff(event.date.end, "day");
+                i <=
+                Math.abs(dayjs(event.date.start).diff(event.date.end, "day"));
                 i++
             ) {
                 const date = dayjs(event.date.start).add(i, "day");
                 const day = store.days.get(date.format(formats.primary_key));
-                moveEvent_(day);
+
+                day && day.removeEvent(event);
+
+                const newDate_ = dayjs(newDate.start).add(i, "day");
+                const newDayModel = store.days.get(
+                    newDate_.format(formats.primary_key)
+                );
+                if (newDayModel) {
+                    newDayModel.addEvent(
+                        eventModel.create({...toJS(event), date: newDate})
+                    );
+                } else {
+                    store.add({
+                        date: newDate_.format(formats.primary_key),
+                        events: [eventModel.create({...toJS(event), date: newDate})],
+                    });
+                }
             }
         },
         addEvent(events: IEventModelSnapshotIn[]) {

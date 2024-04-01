@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {IEventModel} from "../../store";
 import {observer} from "mobx-react-lite";
 import {EventHandlerProvider, useEventHandler} from "./useEventHandler";
@@ -10,17 +10,18 @@ import {ShowMore} from "./show-more";
 export interface IEventHandlerProps {
     cellId: string;
     events: IEventModel[];
-    eachCellWidth: number;
-    eachCellHeight: number;
     currentCellIndex: number;
     maxCellIndex: number;
     maxRenderPerCell: number;
     renderItem: BearCalendarMonthlyViewProps["renderEvent"];
     calcDiffRange: (event: IEventModel) => number;
+    findNextCell: (i: number) => HTMLDivElement | undefined;
+    isStartFunc: (event: IEventModel) => boolean;
 }
 let prevElmId = ``;
 export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
     const store = useEventHandler();
+
     const events = useMemo(() => {
         const tryFindPriority = (): number => {
             const usedPriorities = new Set(
@@ -83,13 +84,13 @@ export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
                         currentCellIndex={props.currentCellIndex}
                         maxCellIndex={props.maxCellIndex}
                         priority={priority}
-                        eachCellWidth={props.eachCellWidth}
-                        eachCellHeight={props.eachCellHeight}
                         calcDiffRange={() => props.calcDiffRange(event)}
                         renderItem={props.renderItem}
                         key={`${index}-${id}`}
                         index={index}
                         maxRenderPerCell={props.maxRenderPerCell}
+                        findNextCell={props.findNextCell}
+                        isStartFunc={props.isStartFunc}
                     />
                 );
             })}

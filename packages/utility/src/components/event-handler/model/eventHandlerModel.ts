@@ -6,8 +6,6 @@ export const eventHandlerModel = types
     .model("eventHandlerModel", {
         event: types.identifierNumber,
         priority: types.maybeNull(types.number),
-        mainId: types.maybeNull(types.string),
-        lastId: types.maybeNull(types.string),
         isHover: types.optional(types.boolean, false),
     })
     .actions((self) => ({
@@ -22,43 +20,44 @@ export const eventHandlerModel = types
         endHovering() {
             self.isHover = false;
         },
-        setMainId(id: string | null) {
-            self.mainId = id;
-        },
-        setLastId(id: string) {
-            self.lastId = id;
-        },
-        startRender(cellWidth: number, renderReason: string) {
-            const mainId = self.mainId;
-            const lastId = self.lastId;
-            self.mainId = null;
-            self.lastId = null;
-            (async () => {
-                if (mainId === null && lastId === null) return;
-                const elm = (await findByQueryAsync(
-                    `#${mainId}`
-                )) as HTMLDivElement;
-                const lastElmPlace = (await findByQueryAsync(
-                    `#${lastId}`
-                )) as HTMLDivElement;
-                elm.setAttribute("data-reason", renderReason);
-                if (elm && lastElmPlace) {
-                    const elmRect = elm.getBoundingClientRect();
-                    const lastElmPlaceRect =
-                        lastElmPlace.getBoundingClientRect();
+        tryStartRender(
+            currentEvent: HTMLDivElement,
+            nextCell: HTMLDivElement,
+            max: number,
+            isEnd: boolean,
+            current: number,
+            maxCell: number
+        ) {
+            if (self.priority === null) return;
 
-                    const width =
-                        lastElmPlaceRect.left - elmRect.left + cellWidth + "px";
-                    elm.style.width = width;
-                    elm.setAttribute("data-logic-is-working", width);
-                    elm.style.visibility = "visible";
-                    elm.style.zIndex = "1";
+            const haveShowMore =
+                nextCell.querySelector(`div[data-test-id="show-more-btn"]`) !==
+                null;
+
+            const render = (isEnd: boolean) => {
+                const rectNext = nextCell.getBoundingClientRect();
+                const rectEvent = currentEvent.getBoundingClientRect();
+                const widthIdIsEnd = isEnd ? rectNext.width - 2 : 0;
+
+                currentEvent.style.width =
+                    rectNext.left - rectEvent.left + widthIdIsEnd + "px";
+                currentEvent.style.visibility = "visible";
+                currentEvent.style.zIndex = Math.abs(
+                    maxCell - current
+                ).toString();
+            };
+
+            if (haveShowMore) {
+                if (self.priority > max) {
+                    render(false);
+                    return true;
                 }
-            })();
+            }
+            if (isEnd) {
+                render(true);
+                return true;
+            }
 
-            // in tree level it should be start to render
-            // 1. when its placed in the more button
-            // 2. when its placed at end of the row
-            // 3. when it is end date
+            return false;
         },
     }));

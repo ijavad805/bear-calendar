@@ -7,6 +7,7 @@ interface IProps {
     children?: React.ReactNode;
     className?: string;
     onClick?: MouseEventHandler<HTMLDivElement>;
+    testId?: string;
 }
 
 export const Button: React.FC<IProps> = ({
@@ -20,6 +21,7 @@ export const Button: React.FC<IProps> = ({
                 buttonSizes[size]
             }`}
             onClick={props.onClick}
+            data-test-id={props.testId}
         >
             {props.children}
         </div>

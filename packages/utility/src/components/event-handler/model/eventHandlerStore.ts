@@ -34,6 +34,9 @@ export const eventHandlerStore = types
             store.droppingEventDays.replace([]);
             store.draggingEvent = null;
         },
+        clear() {
+            store.events.clear();
+        },
     }))
     .views((store) => ({
         getById(id: number) {

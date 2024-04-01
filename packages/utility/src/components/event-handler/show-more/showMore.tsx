@@ -3,12 +3,12 @@ import classes from "./style.module.scss";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import {useTranslate} from "../../../locale";
 import {Button} from "../../button";
-import {EventLogic, classNameEventLogicItem} from "../eventLogic";
-import {findByQueryAllAsync, useOutsideClick} from "../../../utility";
+import {EventLogic} from "../eventLogic";
+import {observer, useOutsideClick} from "../../../utility";
 
 let prevElmId = ``;
 
-export const ShowMore: React.FC<IEventHandlerProps> = (props) => {
+export const ShowMore: React.FC<IEventHandlerProps> = observer((props) => {
     const countShowMore = useMemo(
         () => props.events.length - props.maxRenderPerCell,
         [props.events]
@@ -21,24 +21,25 @@ export const ShowMore: React.FC<IEventHandlerProps> = (props) => {
     const ref = useRef(null);
 
     useEffect(() => {
-        (async () => {
-            const eventsElm = (await findByQueryAllAsync(
-                `.${classNameEventLogicItem}`
-            )) as NodeListOf<HTMLDivElement>;
+        const cellElm = props.findNextCell(0);
 
-            if (props.eachCellHeight) {
-                setStyle({
-                    top: props.eachCellHeight - 45 + "px",
-                });
-            }
-        })();
+        if (cellElm) {
+            setStyle({
+                top: cellElm.clientHeight - 45 + "px",
+            });
+        }
     }, [props.events]);
 
     useOutsideClick(ref, () => setVisible(false));
 
     if (countShowMore <= 0) return null;
     return (
-        <div className={classes.showMore} style={style} ref={ref}>
+        <div
+            className={classes.showMore}
+            style={style}
+            ref={ref}
+            data-test-id={"show-more-btn"}
+        >
             <Button
                 className={classes.button}
                 type="ghost"
@@ -65,13 +66,13 @@ export const ShowMore: React.FC<IEventHandlerProps> = (props) => {
                                 event={event}
                                 currentCellIndex={props.currentCellIndex}
                                 maxCellIndex={props.maxCellIndex}
-                                eachCellHeight={props.eachCellHeight}
-                                eachCellWidth={props.eachCellWidth}
                                 calcDiffRange={() => props.calcDiffRange(event)}
                                 renderItem={props.renderItem}
                                 key={`${index}-${id}`}
                                 index={index}
                                 maxRenderPerCell={props.maxRenderPerCell}
+                                findNextCell={props.findNextCell}
+                                isStartFunc={props.isStartFunc}
                             />
                         );
                     })}
@@ -79,4 +80,4 @@ export const ShowMore: React.FC<IEventHandlerProps> = (props) => {
             )}
         </div>
     );
-};
+});
