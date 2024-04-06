@@ -1,7 +1,7 @@
 .cell {
     z-index: 1;
     box-sizing: content-box;
-    height: inherit;
+    min-height: 100%;
     padding: var(--space-sm);
 
     .header {

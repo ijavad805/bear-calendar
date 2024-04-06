@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {IEventModel} from "../../store";
 import {useEventHandler} from "./useEventHandler";
 import classes from "./style.module.scss";
@@ -18,6 +18,7 @@ export interface IEventLogicProps {
     currentCellIndex: number;
     maxCellIndex: number;
     priority?: number;
+    setHeightForCell: (height: number) => void;
     calcDiffRange: () => number;
     renderItem: BearCalendarMonthlyViewProps["renderEvent"];
     findNextCell: (i: number) => HTMLDivElement | undefined;

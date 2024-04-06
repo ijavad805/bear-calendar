@@ -25,7 +25,7 @@ export const ShowMore: React.FC<IEventHandlerProps> = observer((props) => {
 
         if (cellElm) {
             setStyle({
-                top: cellElm.clientHeight - 45 + "px",
+                bottom: 0 + "px",
             });
         }
     }, [props.events]);
@@ -73,6 +73,7 @@ export const ShowMore: React.FC<IEventHandlerProps> = observer((props) => {
                                 maxRenderPerCell={props.maxRenderPerCell}
                                 findNextCell={props.findNextCell}
                                 isStartFunc={props.isStartFunc}
+                                setHeightForCell={() => {}}
                             />
                         );
                     })}
