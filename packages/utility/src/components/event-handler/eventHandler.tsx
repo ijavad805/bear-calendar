@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {IEventModel} from "../../store";
 import {observer} from "mobx-react-lite";
 import {EventHandlerProvider, useEventHandler} from "./useEventHandler";
@@ -23,6 +23,7 @@ export interface IEventHandlerProps {
 let prevElmId = ``;
 export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
     const store = useEventHandler();
+    const ref = useRef<HTMLDivElement>(null);
 
     const events = useMemo(() => {
         const tryFindPriority = (): number => {
@@ -68,7 +69,7 @@ export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
     }, [props.events, store.rerender]);
 
     return (
-        <>
+        <div ref={ref}>
             {events.map((event, index) => {
                 const priority = store.getById(event.id).priority;
                 const id = `bear-calendar-event-handler-${event.id}`;
@@ -93,10 +94,14 @@ export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
                         maxRenderPerCell={props.maxRenderPerCell}
                         findNextCell={props.findNextCell}
                         isStartFunc={props.isStartFunc}
+                        setHeightForCell={(height) => {
+                            if (ref.current)
+                                ref.current.style.height = height + "px";
+                        }}
                     />
                 );
             })}
             {events.length > props.maxRenderPerCell && <ShowMore {...props} />}
-        </>
+        </div>
     );
 });

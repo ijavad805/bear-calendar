@@ -50,10 +50,12 @@ export const useEventPriority = (props: IEventLogicProps) => {
                     ...style,
                     top,
                 });
-
                 if (props.index >= props.maxRenderPerCell) return;
 
                 const render = () => {
+                    setTimeout(() => {
+                        props.setHeightForCell(top + prevElm.offsetHeight + 20);
+                    }, 10);
                     for (
                         let i = 0;
                         i + props.currentCellIndex < props.maxCellIndex;

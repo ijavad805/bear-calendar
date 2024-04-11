@@ -12,9 +12,9 @@ const mockEvent = () => {
     const today = dayjs();
     // Generate mock data for events
     const events: IEventCustom[] = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 10; i++) {
         const startDate = today.add(i, "day").format("YYYY-MM-DD");
-        const durationDays = Math.floor(Math.random() * 6); // Random duration up to 5 days
+        const durationDays = Math.floor(Math.random() * 10); // Random duration up to 5 days
         const endDate = today
             .add(i + durationDays, "day")
             .format("YYYY-MM-DDTHH:mm:ss");
