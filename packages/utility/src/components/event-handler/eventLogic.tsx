@@ -34,8 +34,8 @@ export const EventLogic: React.FC<IEventLogicProps> = observer((props) => {
         <div
             id={props.uniqueId}
             style={{
-                ...(dndLogic.style as React.CSSProperties),
                 ...priorityLogic.style,
+                ...(dndLogic.style as React.CSSProperties),
             }}
             className={`${classNameEventLogicItem} ${classes.eventLogic} ${props.id}`}
             onMouseEnter={() => {

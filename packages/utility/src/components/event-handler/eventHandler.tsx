@@ -14,7 +14,7 @@ export interface IEventHandlerProps {
     events: IEventModel[];
     currentCellIndex: number;
     maxCellIndex: number;
-    maxRenderPerCell: number;
+     maxRenderPerCell: number;
     renderItem: BearCalendarMonthlyViewProps["renderEvent"];
     calcDiffRange: (event: IEventModel) => number;
     findNextCell: (i: number) => HTMLDivElement | undefined;
