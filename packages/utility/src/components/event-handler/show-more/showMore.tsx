@@ -74,6 +74,7 @@ export const ShowMore: React.FC<IEventHandlerProps> = observer((props) => {
                                 findNextCell={props.findNextCell}
                                 isStartFunc={props.isStartFunc}
                                 setHeightForCell={() => {}}
+                                enableDragAndDrop={props.enableDragAndDrop}
                             />
                         );
                     })}

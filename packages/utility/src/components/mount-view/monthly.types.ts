@@ -1,6 +1,6 @@
 import {Dayjs} from "dayjs";
 import {IEvent} from "../../types";
-import {HtmlHTMLAttributes} from "react";
+import {HTMLAttributes, HtmlHTMLAttributes} from "react";
 
 export interface BearCalendarMonthlyViewRenderHeaderProps {
     nextMonthAction: () => void;
@@ -19,10 +19,6 @@ export interface BearCalendarMonthlyViewRenderCellProps {
 
 export interface BearCalendarMonthlyViewProps {
     current: string;
-    range?: {
-        start: string;
-        end: string;
-    };
     renderEvent: (props: {
         event: IEvent;
         isHover: boolean;
@@ -36,4 +32,6 @@ export interface BearCalendarMonthlyViewProps {
         props: BearCalendarMonthlyViewRenderHeaderProps
     ) => React.ReactNode;
     extraHeader?: (props: {current: Dayjs}) => React.ReactNode;
+    onDayAttributes?: (date: Dayjs) => HTMLAttributes<HTMLTableCellElement>;
+    onEvent?: (date: Dayjs) => HTMLAttributes<HTMLTableCellElement>;
 }

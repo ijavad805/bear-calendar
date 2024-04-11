@@ -15,6 +15,7 @@ export interface IEventHandlerProps {
     currentCellIndex: number;
     maxCellIndex: number;
     maxRenderPerCell: number;
+    enableDragAndDrop: boolean;
     renderItem: BearCalendarMonthlyViewProps["renderEvent"];
     calcDiffRange: (event: IEventModel) => number;
     findNextCell: (i: number) => HTMLDivElement | undefined;
@@ -94,6 +95,7 @@ export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
                         maxRenderPerCell={props.maxRenderPerCell}
                         findNextCell={props.findNextCell}
                         isStartFunc={props.isStartFunc}
+                        enableDragAndDrop={props.enableDragAndDrop}
                         setHeightForCell={(height) => {
                             if (ref.current)
                                 ref.current.style.height = height + "px";

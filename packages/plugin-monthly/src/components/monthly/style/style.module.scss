@@ -1,9 +1,6 @@
 .title {
-    color: var(--secondary-color);
-
-    .year {
-        font-size: 11px;
-    }
+    display: flex;
+    align-items: center;
 }
 
 .eventsItem {
@@ -27,6 +24,7 @@
         opacity: 0 !important;
         z-index: 15;
     }
+
 }
 
 

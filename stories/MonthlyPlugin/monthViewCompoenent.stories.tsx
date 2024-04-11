@@ -12,7 +12,7 @@ const mockEvent = () => {
     const today = dayjs();
     // Generate mock data for events
     const events: IEventCustom[] = [];
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 5; i++) {
         const startDate = today.add(i, "day").format("YYYY-MM-DD");
         const durationDays = Math.floor(Math.random() * 10); // Random duration up to 5 days
         const endDate = today
@@ -51,6 +51,9 @@ const meta: Meta<typeof BearCalendar> = {
                 view={"Monthly"}
                 config={{locale: "en"}}
                 events={mockEvent()}
+                onClickEvent={(event) => {
+                    console.log("event click", event);
+                }}
                 {...props}
             />
         );
@@ -68,6 +71,15 @@ export const Primary: Story = {
     },
 };
 
+export const DisableDays: Story = {
+    args: {
+        plugin: [new MonthlyPlugin()],
+        disabledDate(date) {
+            return date.getDay() === 1;
+        },
+    },
+};
+
 export const CustomEventComponent: Story = {
     args: {
         plugin: [
@@ -77,5 +89,29 @@ export const CustomEventComponent: Story = {
                 },
             }),
         ],
+    },
+};
+
+export const DragAndDropMonthEvent: Story = {
+    args: {
+        plugin: [new MonthlyPlugin()],
+        onDropEvent: (event, newDate) => {
+            console.log("event drop", event, newDate);
+        },
+    },
+};
+
+export const PerDayCustomStyleAndClass: Story = {
+    args: {
+        plugin: [new MonthlyPlugin()],
+        onDropEvent: (event, newDate) => {
+            console.log("event drop", event, newDate);
+        },
+    },
+};
+
+export const PerEventCustomStyleAndClass: Story = {
+    args: {
+        plugin: [new MonthlyPlugin()],
     },
 };

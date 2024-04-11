@@ -40,19 +40,17 @@ export interface BearCalendarHeaderProps {
 export interface BearCalendarProps {
     defaultCurrent?: string;
     plugin: Plugin[];
-    components?: {
-        cell?: React.FC<BearCalendarCellProps>;
-        event?: React.FC<BearCalendarEventProps>;
-        header?: React.FC<BearCalendarHeaderProps>;
-    };
     viewSize?: keyof typeof enumViewSize;
-    onDropEvent?: Function;
-    onClickEvent?: Function;
-    disabledDate?: Function;
     lang?: ILocale;
     extra?: React.ReactNode;
     events?: IEvent[];
     view?: keyof typeof PluginName;
     enableViewControl?: boolean;
     config?: BearConfigProviderProps;
+    disabledDate?: (date: Date) => boolean;
+    onDropEvent?: (
+        event: IEvent,
+        newDate: {start: string; end: string}
+    ) => void | boolean;
+    onClickEvent?: (event: IEvent) => void;
 }

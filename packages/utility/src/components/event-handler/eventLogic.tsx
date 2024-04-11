@@ -18,6 +18,7 @@ export interface IEventLogicProps {
     currentCellIndex: number;
     maxCellIndex: number;
     priority?: number;
+    enableDragAndDrop: boolean;
     setHeightForCell: (height: number) => void;
     calcDiffRange: () => number;
     renderItem: BearCalendarMonthlyViewProps["renderEvent"];
@@ -47,7 +48,7 @@ export const EventLogic: React.FC<IEventLogicProps> = observer((props) => {
             }}
             onDragStart={dndLogic.handleStartDarg}
             onDragEnd={dndLogic.handleEndDrag}
-            draggable
+            draggable={props.enableDragAndDrop}
         >
             {props.renderItem({
                 event: props.event,

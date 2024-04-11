@@ -10,13 +10,14 @@ import classes from "./style/header.module.scss";
 export const Header: React.FC<BearCalendarHeaderProps> = observer((props) => {
     const {extra} = useCalendarProps();
 
-    // if (Components?.header)
-    //     return <Components.header extra={extra} {...props} />;
-
     return (
         <div className={classes.header}>
             <div className={classes.controllers}>
-                <Button className={classes.controller} onClick={props.onPrev}>
+                <Button
+                    className={classes.controller}
+                    onClick={props.onPrev}
+                    type="ghost"
+                >
                     <svg
                         width="24"
                         height="22"
@@ -32,7 +33,11 @@ export const Header: React.FC<BearCalendarHeaderProps> = observer((props) => {
                     </svg>
                 </Button>
                 <div className={classes.title}>{props.title}</div>
-                <Button className={classes.controller} onClick={props.onNext}>
+                <Button
+                    className={classes.controller}
+                    onClick={props.onNext}
+                    type="ghost"
+                >
                     <svg
                         width="24"
                         height="22"

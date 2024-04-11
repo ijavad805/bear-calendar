@@ -8,6 +8,7 @@ import {IEvent} from "../../types";
 import {useMountViewProps} from "./useMountViewProps";
 import {toJS} from "mobx";
 import {EventHandler, useDroppable} from "../event-handler";
+import {useCalendarProps} from "../config";
 
 interface IProps {
     date: string;
@@ -21,6 +22,7 @@ const Cell: React.FC<IProps> = observer((props) => {
         dayStore: {get, moveEvent},
     } = useStore();
     const mountViewProps = useMountViewProps();
+    const calendarProps = useCalendarProps();
     const thisDay = dayjs(props.date);
     const thisDayStore = get(thisDay.calendar("gregory").format());
     const isPast = useMemo(
@@ -31,17 +33,29 @@ const Cell: React.FC<IProps> = observer((props) => {
         () => thisDay.format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD"),
         [props.date]
     );
-
     const drop = useDroppable({
         date: thisDay,
         onDrop: (event, startDate, endDate) => {
+            calendarProps.onDropEvent &&
+                calendarProps.onDropEvent(event, {
+                    start: startDate,
+                    end: endDate,
+                });
             moveEvent({start: startDate, end: endDate}, event);
         },
     });
+    const thisDaySpecialProps = mountViewProps.onDayAttributes
+        ? mountViewProps.onDayAttributes(thisDay)
+        : {};
 
     return (
         <td
-            className={classes.cell}
+            {...thisDaySpecialProps}
+            className={`${classes.cell} ${
+                thisDaySpecialProps.className
+                    ? thisDaySpecialProps.className
+                    : ""
+            }`}
             onDrop={drop.handleDrop}
             onDragOver={drop.handleHover}
             key={`${thisDay.format("DD")}-${
@@ -62,13 +76,16 @@ const Cell: React.FC<IProps> = observer((props) => {
                         maxCellIndex={7}
                         maxRenderPerCell={4}
                         renderItem={mountViewProps.renderEvent}
+                        cellId={thisDay.format("DD")}
+                        enableDragAndDrop={
+                            calendarProps.onDropEvent !== undefined
+                        }
                         calcDiffRange={(event) => {
                             return (
                                 dayjs(event.date.end).diff(props.date, "day") +
                                 1
                             );
                         }}
-                        cellId={thisDay.format("DD")}
                         findNextCell={(i) => {
                             const find = document.querySelector(
                                 `td[data-date="${thisDay

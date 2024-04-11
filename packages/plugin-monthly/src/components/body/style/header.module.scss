@@ -2,18 +2,40 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-bottom: unset;
+    background-color: var(--surface);
+    height: 30px;
 
     .controllers {
         display: flex;
         align-items: center;
         user-select: none;
 
+        .controller {
+            border-right: 1px solid var(--border-color);
+            border-left: unset;
+            border-radius: unset;
+            height: 30px;
+            flex-grow: 1;
+
+            &:nth-child(3) {
+                border-left: 1px solid var(--border-color);
+            }
+
+            &:first-child() {
+                border: unset;
+            }
+        }
     }
 
     .title {
-        width: 80px;
-        text-align: center;
+        min-width: 165px;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        display: flex;
+
     }
 
     .extra {

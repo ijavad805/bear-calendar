@@ -24,8 +24,10 @@ export const Monthly: React.FC<IProps> = observer((props) => {
             }}
             title={
                 <div className={classes.title}>
-                    {current.format("MMMM")}
-                    <div className={classes.year}>{current.format("YYYY")}</div>
+                    <div>{current.format("MMMM")}</div>
+                    <div className={classes.year}>
+                        , {current.format("YYYY")}
+                    </div>
                 </div>
             }
         >
@@ -43,7 +45,7 @@ export const Monthly: React.FC<IProps> = observer((props) => {
                               <div
                                   className={`${classes.eventsItem} ${
                                       isHover ? classes.hover : ""
-                                  }`}
+                                  } `}
                               >
                                   {event.title}
                               </div>
