@@ -4,7 +4,7 @@ import React from "react";
 
 const Cell: React.FC<BearCalendarMonthlyViewRenderCellProps> = (props) => {
     const cellClasses = () => {
-        const tmp = [classes.cell];
+        const tmp = [classes.cell, ...(props.classList || [])];
         if (props.isPast) {
             tmp.push(classes.past);
         }

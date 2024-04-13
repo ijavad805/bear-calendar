@@ -6,6 +6,7 @@ import {observer} from "mobx-react-lite";
 import {BearCalendarMonthlyViewProps} from "../mount-view";
 import {useEventPriority} from "./useEventPriority";
 import {useEventDNDLogic} from "./useEventDNDLogic";
+import {useCalendarProps} from "../config";
 
 export const classNameEventLogicItem = "event-logic-item";
 export interface IEventLogicProps {
@@ -31,13 +32,13 @@ export const EventLogic: React.FC<IEventLogicProps> = observer((props) => {
     const thisEvent = store.getById(props.event.id);
     const priorityLogic = useEventPriority(props);
     const dndLogic = useEventDNDLogic(props);
+    const calendarProps = useCalendarProps();
 
     return (
         <div
             id={props.uniqueId}
             style={{
                 ...priorityLogic.style,
-                ...(dndLogic.style as React.CSSProperties),
             }}
             className={`${classNameEventLogicItem} ${classes.eventLogic} ${props.id}`}
             onMouseEnter={() => {
@@ -45,6 +46,11 @@ export const EventLogic: React.FC<IEventLogicProps> = observer((props) => {
             }}
             onMouseLeave={() => {
                 thisEvent.endHovering();
+            }}
+            onClick={(e) => {
+                e.preventDefault();
+                calendarProps.onClickEvent &&
+                    calendarProps.onClickEvent(props.event);
             }}
             onDragStart={dndLogic.handleStartDarg}
             onDragEnd={dndLogic.handleEndDrag}

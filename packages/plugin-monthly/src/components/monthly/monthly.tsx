@@ -33,24 +33,18 @@ export const Monthly: React.FC<IProps> = observer((props) => {
         >
             <MonthlyView
                 current={current.format()}
-                renderCell={
-                    props.renderCell
-                        ? props.renderCell
-                        : (props) => <Cell {...props} />
-                }
-                renderEvent={
-                    props.renderEvent
-                        ? props.renderEvent
-                        : ({event, isHover, isDragging}) => (
-                              <div
-                                  className={`${classes.eventsItem} ${
-                                      isHover ? classes.hover : ""
-                                  } `}
-                              >
-                                  {event.title}
-                              </div>
-                          )
-                }
+                renderCell={(props) => <Cell {...props} />}
+                renderEvent={({event, isHover, isDragging}) => (
+                    <div
+                        className={`${classes.eventsItem} ${
+                            isHover ? classes.hover : ""
+                        } `}
+                    >
+                        {event.title}
+                    </div>
+                )}
+                disableDayClass={classes.disabled}
+                {...props}
             />
         </Body>
     );

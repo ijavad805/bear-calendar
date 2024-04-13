@@ -33,15 +33,23 @@ const Cell: React.FC<IProps> = observer((props) => {
         () => thisDay.format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD"),
         [props.date]
     );
+    const isThisDayDisabled = useMemo(
+        () =>
+            calendarProps.disabledDate
+                ? calendarProps.disabledDate(thisDay)
+                : false,
+        [props.date]
+    );
     const drop = useDroppable({
         date: thisDay,
-        onDrop: (event, startDate, endDate) => {
-            calendarProps.onDropEvent &&
-                calendarProps.onDropEvent(event, {
+        onDrop: async (event, startDate, endDate) => {
+            if (calendarProps.onDropEvent && !isThisDayDisabled) {
+                const canDrop = await calendarProps.onDropEvent(event, {
                     start: startDate,
                     end: endDate,
                 });
-            moveEvent({start: startDate, end: endDate}, event);
+                if (canDrop === undefined || canDrop) moveEvent({start: startDate, end: endDate}, event);
+            }
         },
     });
     const thisDaySpecialProps = mountViewProps.onDayAttributes
@@ -56,6 +64,7 @@ const Cell: React.FC<IProps> = observer((props) => {
                     ? thisDaySpecialProps.className
                     : ""
             }`}
+            onClick={mountViewProps.onClickDay}
             onDrop={drop.handleDrop}
             onDragOver={drop.handleHover}
             key={`${thisDay.format("DD")}-${
@@ -65,10 +74,15 @@ const Cell: React.FC<IProps> = observer((props) => {
         >
             {mountViewProps.renderCell({
                 day: thisDay,
-                isDisabled: props.disabled || false,
+                isDisabled: props.disabled || isThisDayDisabled || false,
                 isPast,
                 isToday,
                 isDropping: drop.isDropping,
+                classList: [
+                    isThisDayDisabled
+                        ? mountViewProps.disableDayClass || ""
+                        : "",
+                ],
                 eventsNode: thisDayStore ? (
                     <EventHandler
                         currentCellIndex={props.cellIndexInWeek}

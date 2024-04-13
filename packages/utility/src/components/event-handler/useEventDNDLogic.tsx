@@ -19,8 +19,5 @@ export const useEventDNDLogic = (props: IEventLogicProps) => {
         isDragging,
         handleStartDarg,
         handleEndDrag,
-        style: {
-            visibility: isDragging ? "hidden" : "visible",
-        },
     };
 };

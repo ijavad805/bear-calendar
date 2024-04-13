@@ -75,7 +75,7 @@ export const DisableDays: Story = {
     args: {
         plugin: [new MonthlyPlugin()],
         disabledDate(date) {
-            return date.getDay() === 1;
+            return date.weekday() === 1;
         },
     },
 };
@@ -106,6 +106,8 @@ export const PerDayCustomStyleAndClass: Story = {
         plugin: [new MonthlyPlugin()],
         onDropEvent: (event, newDate) => {
             console.log("event drop", event, newDate);
+
+            return true;
         },
     },
 };

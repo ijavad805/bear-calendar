@@ -1,5 +1,5 @@
 import React, {ReactNode} from "react";
-import {locale} from "dayjs";
+import {Dayjs, locale} from "dayjs";
 import {BearConfigProviderProps} from "../components/config/ConfigProvider.types";
 import {IEventModel} from "../store";
 import {Plugin, PluginName} from "./plugin.types";
@@ -47,7 +47,7 @@ export interface BearCalendarProps {
     view?: keyof typeof PluginName;
     enableViewControl?: boolean;
     config?: BearConfigProviderProps;
-    disabledDate?: (date: Date) => boolean;
+    disabledDate?: (date: Dayjs) => boolean;
     onDropEvent?: (
         event: IEvent,
         newDate: {start: string; end: string}

@@ -28,6 +28,7 @@
     "@lerna-lite/cli": "^3.3.0",
     "@lerna-lite/list": "^3.3.0",
     "@lerna-lite/run": "^3.3.0",
+    "@rollup/plugin-image": "^3.0.3",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",
