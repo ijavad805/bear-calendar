@@ -18,13 +18,11 @@ interface IProps {
 }
 const Cell: React.FC<IProps> = observer((props) => {
     const dayjs = useDayjs();
-    const {
-        dayStore: {get, moveEvent},
-    } = useStore();
+    const {dayStore} = useStore();
     const mountViewProps = useMountViewProps();
     const calendarProps = useCalendarProps();
     const thisDay = dayjs(props.date);
-    const thisDayStore = get(thisDay.calendar("gregory").format());
+    const thisDayStore = dayStore.get(thisDay.calendar("gregory").format());
     const isPast = useMemo(
         () => thisDay.format("YYYY-MM-DD") < dayjs().format("YYYY-MM-DD"),
         [props.date]
@@ -44,11 +42,13 @@ const Cell: React.FC<IProps> = observer((props) => {
         date: thisDay,
         onDrop: async (event, startDate, endDate) => {
             if (calendarProps.onDropEvent && !isThisDayDisabled) {
-                const canDrop = await calendarProps.onDropEvent(event, {
+                const canDrop = calendarProps.onDropEvent(event, {
                     start: startDate,
                     end: endDate,
                 });
-                if (canDrop === undefined || canDrop) moveEvent({start: startDate, end: endDate}, event);
+
+                if (canDrop === undefined || canDrop)
+                    dayStore.moveEvent({start: startDate, end: endDate}, event);
             }
         },
     });
