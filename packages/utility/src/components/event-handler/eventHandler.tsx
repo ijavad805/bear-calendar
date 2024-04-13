@@ -8,6 +8,7 @@ import {BearCalendarMonthlyViewProps} from "../mount-view";
 import {ShowMore} from "./show-more";
 import {getRoot, getSnapshot} from "mobx-state-tree";
 import {IEventHandlerStore} from "./model/eventHandlerStore";
+import classes from "./style.module.scss";
 
 export interface IEventHandlerProps {
     cellId: string;
@@ -70,7 +71,7 @@ export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
     }, [props.events, store.rerender]);
 
     return (
-        <div ref={ref}>
+        <div ref={ref} className={classes.eventHandlerHolder}>
             {events.map((event, index) => {
                 const priority = store.getById(event.id).priority;
                 const id = `bear-calendar-event-handler-${event.id}`;
