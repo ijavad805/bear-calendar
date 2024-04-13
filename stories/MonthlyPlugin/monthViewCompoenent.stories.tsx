@@ -103,12 +103,23 @@ export const DragAndDropMonthEvent: Story = {
 
 export const PerDayCustomStyleAndClass: Story = {
     args: {
-        plugin: [new MonthlyPlugin()],
-        onDropEvent: (event, newDate) => {
-            console.log("event drop", event, newDate);
+        plugin: [
+            new MonthlyPlugin({
+                onDayAttributes(date) {
+                    console.log("here",date);
+                    
+                    if (date.weekday() === 5) {
+                        return {
+                            style: {
+                                backgroundColor: "#b8000020",
+                            },
+                        };
+                    }
 
-            return true;
-        },
+                    return {};
+                },
+            }),
+        ],
     },
 };
 
