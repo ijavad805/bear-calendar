@@ -5,8 +5,8 @@ import {Timeline} from "./components";
 type IOption = Parameters<typeof Timeline>["0"];
 export default class TimelinePlugin implements Plugin {
     name = PluginName.Monthly;
-    options: IOption | undefined;
-    constructor(options?: IOption) {
+    options: IOption;
+    constructor(options: IOption) {
         this.options = options;
     }
     

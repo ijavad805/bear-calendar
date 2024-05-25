@@ -105,9 +105,7 @@ export const PerDayCustomStyleAndClass: Story = {
     args: {
         plugin: [
             new MonthlyPlugin({
-                onDayAttributes(date) {
-                    console.log("here",date);
-                    
+                onDayAttributes(date) {                    
                     if (date.weekday() === 5) {
                         return {
                             style: {

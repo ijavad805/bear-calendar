@@ -1,1 +1,1 @@
-export * from "./timline";
+export * from "./timeline";
