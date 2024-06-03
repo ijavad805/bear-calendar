@@ -1,15 +1,17 @@
 import React from "react";
 import {
+    BearCalendarMonthlyViewProps,
     MonthlyView,
     observer,
     useCalendarProps,
     useStore,
 } from "@bear-calendar/utility";
 import {Body} from "../body";
-import classes from "./style.module.scss";
+import classes from "./style/style.module.scss";
+import Cell from "./cell";
 
-export const Monthly = observer(() => {
-    const mainProps = useCalendarProps();
+interface IProps extends Partial<BearCalendarMonthlyViewProps> {}
+export const Monthly: React.FC<IProps> = observer((props) => {
     const {current, changeCurrent} = useStore();
 
     return (
@@ -22,12 +24,28 @@ export const Monthly = observer(() => {
             }}
             title={
                 <div className={classes.title}>
-                    {current.format("MMMM")}
-                    <div className={classes.year}>{current.format("YYYY")}</div>
+                    <div>{current.format("MMMM")}</div>
+                    <div className={classes.year}>
+                        , {current.format("YYYY")}
+                    </div>
                 </div>
             }
         >
-            <MonthlyView current={current.format()} />
+            <MonthlyView
+                current={current.format()}
+                renderCell={(props) => <Cell {...props} />}
+                renderEvent={({event, isHover, isDragging}) => (
+                    <div
+                        className={`${classes.eventsItem} ${
+                            isHover ? classes.hover : ""
+                        } `}
+                    >
+                        {event.title}
+                    </div>
+                )}
+                disableDayClass={classes.disabled}
+                {...props}
+            />
         </Body>
     );
 });

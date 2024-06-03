@@ -1,6 +1,7 @@
 import React from "react";
 import {
     BearCalendarHeaderProps,
+    Button,
     observer,
     useCalendarProps,
 } from "@bear-calendar/utility";
@@ -9,17 +10,17 @@ import classes from "./style/header.module.scss";
 export const Header: React.FC<BearCalendarHeaderProps> = observer((props) => {
     const {extra} = useCalendarProps();
 
-    // if (Components?.header)
-    //     return <Components.header extra={extra} {...props} />;
-
     return (
         <div className={classes.header}>
             <div className={classes.controllers}>
-                <div className={classes.controller} onClick={props.onPrev}>
+                <Button
+                    className={classes.controller}
+                    onClick={props.onPrev}
+                    type="ghost"
+                >
                     <svg
                         width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
+                        height="22"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                     >
@@ -30,13 +31,16 @@ export const Header: React.FC<BearCalendarHeaderProps> = observer((props) => {
                             fill="#000000"
                         />
                     </svg>
-                </div>
+                </Button>
                 <div className={classes.title}>{props.title}</div>
-                <div className={classes.controller} onClick={props.onNext}>
+                <Button
+                    className={classes.controller}
+                    onClick={props.onNext}
+                    type="ghost"
+                >
                     <svg
                         width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
+                        height="22"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                     >
@@ -47,7 +51,7 @@ export const Header: React.FC<BearCalendarHeaderProps> = observer((props) => {
                             fill="#000000"
                         />
                     </svg>
-                </div>
+                </Button>
             </div>
             <div className={classes.extra}>{extra}</div>
         </div>

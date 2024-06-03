@@ -1,8 +1,14 @@
-import React from "react";
+import React, {HtmlHTMLAttributes, useEffect, useMemo, useState} from "react";
 import {observer, useDateTools, useDayjs} from "../../utility";
 import classes from "./style/cell.module.scss";
 import {Dayjs} from "dayjs";
 import {useStore} from "../../store";
+import {BearCalendarMonthlyViewRenderCellProps} from "./monthly.types";
+import {IEvent} from "../../types";
+import {useMountViewProps} from "./useMountViewProps";
+import {toJS} from "mobx";
+import {EventHandler, useDroppable} from "../event-handler";
+import {useCalendarProps} from "../config";
 
 interface IProps {
     date: string;
@@ -12,42 +18,108 @@ interface IProps {
 }
 const Cell: React.FC<IProps> = observer((props) => {
     const dayjs = useDayjs();
-    const {
-        dayStore: {get},
-    } = useStore();
+    const {dayStore} = useStore();
+    const mountViewProps = useMountViewProps();
+    const calendarProps = useCalendarProps();
     const thisDay = dayjs(props.date);
-    const thisDayStore = get(thisDay.calendar("gregory").format());
-    const cellClasses = () => {
-        const tmp: string[] = [classes.cell];
+    const thisDayStore = dayStore.get(thisDay.calendar("gregory").format());
+    const isPast = useMemo(
+        () => thisDay.format("YYYY-MM-DD") < dayjs().format("YYYY-MM-DD"),
+        [props.date]
+    );
+    const isToday = useMemo(
+        () => thisDay.format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD"),
+        [props.date]
+    );
+    const isThisDayDisabled = useMemo(
+        () =>
+            calendarProps.disabledDate
+                ? calendarProps.disabledDate(thisDay)
+                : false,
+        [props.date]
+    );
+    const drop = useDroppable({
+        date: thisDay,
+        onDrop: async (event, startDate, endDate) => {
+            if (calendarProps.onDropEvent && !isThisDayDisabled) {
+                const canDrop = calendarProps.onDropEvent(event, {
+                    start: startDate,
+                    end: endDate,
+                });
 
-        if (thisDay.format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD")) {
-            tmp.push(classes.today);
-        }
-        if (thisDay.format("YYYY-MM-DD") < dayjs().format("YYYY-MM-DD")) {
-            tmp.push(classes.past);
-        }
-        if (props.disabled) {
-            tmp.push(classes.disabled);
-        }
-
-        return tmp.join(" ");
-    };
+                if (canDrop === undefined || canDrop)
+                    dayStore.moveEvent({start: startDate, end: endDate}, event);
+            }
+        },
+    });
+    const thisDaySpecialProps = mountViewProps.onDayAttributes
+        ? mountViewProps.onDayAttributes(thisDay)
+        : {};
 
     return (
-        <td className={cellClasses()}>
-            <div className={classes.header}>
-                <div className={classes.month}>{thisDay.format("MMM")}</div>
-                <div className={classes.day}>{thisDay.format("DD")}</div>
-            </div>
-            <div className={classes.body}>
-                {thisDayStore && (
-                    <div className={classes.events}>
-                        {thisDayStore.events.map((i) => (
-                            <div className={classes.event}>{i.title}</div>
-                        ))}
-                    </div>
-                )}
-            </div>
+        <td
+            {...thisDaySpecialProps}
+            className={`${classes.cell} ${
+                thisDaySpecialProps.className
+                    ? thisDaySpecialProps.className
+                    : ""
+            }`}
+            onClick={mountViewProps.onClickDay}
+            onDrop={drop.handleDrop}
+            onDragOver={drop.handleHover}
+            key={`${thisDay.format("DD")}-${
+                thisDayStore ? thisDayStore.events.length : 0
+            }`}
+            data-date={thisDay.format("YYYY-MM-DD")}
+        >
+            {mountViewProps.renderCell({
+                day: thisDay,
+                isDisabled: props.disabled || isThisDayDisabled || false,
+                isPast,
+                isToday,
+                isDropping: drop.isDropping,
+                classList: [
+                    isThisDayDisabled
+                        ? mountViewProps.disableDayClass || ""
+                        : "",
+                ],
+                eventsNode: thisDayStore ? (
+                    <EventHandler
+                        currentCellIndex={props.cellIndexInWeek}
+                        events={thisDayStore.events}
+                        maxCellIndex={7}
+                        maxRenderPerCell={4}
+                        renderItem={mountViewProps.renderEvent}
+                        cellId={thisDay.format("DD")}
+                        enableDragAndDrop={
+                            calendarProps.onDropEvent !== undefined
+                        }
+                        calcDiffRange={(event) => {
+                            return (
+                                dayjs(event.date.end).diff(props.date, "day") +
+                                1
+                            );
+                        }}
+                        findNextCell={(i) => {
+                            const find = document.querySelector(
+                                `td[data-date="${thisDay
+                                    .clone()
+                                    .add(i, "day")
+                                    .format("YYYY-MM-DD")}"]`
+                            ) as HTMLDivElement;
+
+                            return find;
+                        }}
+                        isStartFunc={(event) => {
+                            return dayjs(event.date.start).isSame(
+                                thisDay,
+                                "day"
+                            );
+                        }}
+                    />
+                ) : null,
+                eventList: thisDayStore ? thisDayStore.events : [],
+            })}
         </td>
     );
 });

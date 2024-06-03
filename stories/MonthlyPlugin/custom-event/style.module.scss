@@ -1,0 +1,35 @@
+.customEvent {
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    border-radius: 2px;
+    color: #fff;
+    gap: 10px;
+
+    .avatar {
+        width: 20px;
+        height: 20px;
+        overflow: hidden;
+        border-radius: 30px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .name {
+        font-size: 12px;
+    }
+
+    &.type2 {
+        background-color: red;
+    }
+
+    &.isOneDay {
+        background-color: transparent;
+        color: #3f3f3f;
+    }
+}

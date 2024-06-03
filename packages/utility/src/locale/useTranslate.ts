@@ -8,11 +8,11 @@ export const useTranslate = () => {
         params?: string[]
     ): (typeof currentLocale)[T] => {
         let text_ = currentLocale[text];
-        if(params && typeof text_ === "string"){
-            params.forEach((param) => {
+        if (params && typeof text_ === "string") {
+            params.forEach((param, index) => {
                 // @ts-ignore
-                text_ = text.replaceAll(param);
-            })
+                text_ = text_.replaceAll(`{${index}}`, param);
+            });
         }
 
         return text_;

@@ -1,0 +1,11 @@
+.timeline {
+    background-color: var(--surface-2);
+    height: 100%;
+    overflow: auto;
+    flex-grow: 1;
+    position: relative;
+
+    * {
+        --sidebar-width: 250px;
+    }
+}

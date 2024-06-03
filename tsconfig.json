@@ -5,6 +5,8 @@
         "allowJs": false,
         "baseUrl": ".",
         "isolatedModules": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
         "paths": {
             "@bear-calendar/core": ["packages/core/src"],
             "@bear-calendar/utility": ["packages/utility/src"],

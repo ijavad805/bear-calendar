@@ -1,10 +1,40 @@
-export enum BearCalendarMonthViewSize {
-    Small,
-    Medium,
-    Large,
+import {Dayjs} from "dayjs";
+import {IEvent} from "../../types";
+import React, {HTMLAttributes, HtmlHTMLAttributes} from "react";
+
+export interface BearCalendarMonthlyViewRenderHeaderProps {
+    nextMonthAction: () => void;
+    prevMonthAction: () => void;
+    goToDay: () => void;
+}
+export interface BearCalendarMonthlyViewRenderCellProps {
+    eventsNode: React.ReactNode | null;
+    day: Dayjs;
+    isToday: boolean;
+    isDisabled: boolean;
+    isPast: boolean;
+    isDropping: boolean;
+    eventList: IEvent[];
+    classList?: string[];
 }
 
 export interface BearCalendarMonthlyViewProps {
     current: string;
-    size?: BearCalendarMonthViewSize;
+    disableDayClass?: string;
+    renderEvent: (props: {
+        event: IEvent;
+        isHover: boolean;
+        isDragging: boolean;
+    }) => React.ReactNode;
+    renderCell: (
+        props: BearCalendarMonthlyViewRenderCellProps
+    ) => React.ReactNode;
+    disableDay?: (date: Dayjs) => boolean;
+    renderHeader?: (
+        props: BearCalendarMonthlyViewRenderHeaderProps
+    ) => React.ReactNode;
+    extraHeader?: (props: {current: Dayjs}) => React.ReactNode;
+    onDayAttributes?: (date: Dayjs) => HTMLAttributes<HTMLTableCellElement>;
+    onEvent?: (event: IEvent) => HTMLAttributes<HTMLTableCellElement>;
+    onClickDay?: React.MouseEventHandler;
 }

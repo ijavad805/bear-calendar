@@ -6,6 +6,7 @@ export const rootStore = types
     .model("rootStore", {
         current: types.optional(types.frozen<Dayjs>(), dayjs()),
         dayStore: types.optional(dayStore, {}),
+        test: types.optional(types.string,"mst work here")
     })
     .actions((store) => ({
         changeCurrent(newDate: Dayjs) {

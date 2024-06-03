@@ -1,6 +1,7 @@
 import {PluginName, useCalendarProps} from "@bear-calendar/utility";
 import React, {useEffect, useMemo, useState} from "react";
 import classes from "./style.module.scss";
+import {Footer} from "./footer";
 export const View: React.FC = () => {
     const calendarProps = useCalendarProps();
     const [activeView, setActiveView] = useState<keyof typeof PluginName>(
@@ -16,6 +17,18 @@ export const View: React.FC = () => {
         }
 
         return <>View Not Found</>;
+    }, [activeView]);
+
+    const footer = useMemo(() => {
+        if (activeView) {
+            const findView = calendarProps.plugin.find(
+                (i) => i.name === activeView
+            );
+
+            if (findView && findView.footer) return findView.footer();
+        }
+
+        return null;
     }, [activeView]);
 
     useEffect(() => {
@@ -41,6 +54,12 @@ export const View: React.FC = () => {
                 )}
 
             <div className={classes.body}>{view}</div>
+            <Footer
+                changeView={(name) => setActiveView(name)}
+                activePlugin={activeView}
+            >
+                {footer}
+            </Footer>
         </div>
     );
 };

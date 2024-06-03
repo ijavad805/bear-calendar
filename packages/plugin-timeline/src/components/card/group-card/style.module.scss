@@ -1,0 +1,18 @@
+.groupRow {
+    border-bottom: 1px solid var(--border-color);
+
+    .groupLabel {
+        padding: var(--space-sm) var(--space-md);
+        border-right: 1px solid var(--border-color);
+        width: var(--sidebar-width);
+        box-sizing: border-box;
+        position: sticky;
+        left: 0;
+        background-color: var(--surface);
+        z-index: 2;
+
+        &:hover {
+            background-color: var(--hover);
+        }
+    }
+}

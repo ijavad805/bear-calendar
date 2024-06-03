@@ -2,7 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    background-color: var(--surface);
+    height: 30px;
 
     .controllers {
         display: flex;
@@ -10,25 +11,29 @@
         user-select: none;
 
         .controller {
-            cursor: pointer;
-            margin: 0 5px;
-            border-radius: var(--corner);
-            background-color: #ddd;
-            width: 25px;
-            height: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-right: 1px solid var(--border-color);
+            border-left: unset;
+            border-radius: unset;
+            height: 30px;
+            flex-grow: 1;
 
-            &:hover {
-                background-color: #ccc;
+            &:nth-child(3) {
+                border-left: 1px solid var(--border-color);
+            }
+
+            &:first-child() {
+                border: unset;
             }
         }
     }
 
     .title {
-        width: 80px;
-        text-align: center;
+        min-width: 165px;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        display: flex;
+
     }
 
     .extra {

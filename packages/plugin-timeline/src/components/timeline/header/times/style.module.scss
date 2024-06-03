@@ -1,0 +1,10 @@
+.times {
+    width: max-content;
+
+    .time {
+        min-width: 80px; // TODO :: should be read from base settings
+        height: 40px;
+        border-right: 1px solid var(--border-color);
+        box-sizing: border-box;
+    }
+}

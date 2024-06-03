@@ -1,22 +1,32 @@
-import React, {useMemo} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {IEventModel} from "../../store";
 import {observer} from "mobx-react-lite";
 import {EventHandlerProvider, useEventHandler} from "./useEventHandler";
+import {EventLogic} from "./eventLogic";
+import {toJS} from "mobx";
+import {BearCalendarMonthlyViewProps} from "../mount-view";
+import {ShowMore} from "./show-more";
+import {getRoot, getSnapshot} from "mobx-state-tree";
+import {IEventHandlerStore} from "./model/eventHandlerStore";
+import classes from "./style.module.scss";
 
-interface IProps {
+export interface IEventHandlerProps {
+    cellId: string;
     events: IEventModel[];
-    renderItem: (
-        event: IEventModel,
-        priority: number,
-        style: React.CSSProperties
-    ) => React.ReactNode;
-    eachCellWidth: number;
     currentCellIndex: number;
     maxCellIndex: number;
     maxRenderPerCell: number;
+    enableDragAndDrop: boolean;
+    renderItem: BearCalendarMonthlyViewProps["renderEvent"];
+    calcDiffRange: (event: IEventModel) => number;
+    findNextCell: (i: number) => HTMLDivElement | undefined;
+    isStartFunc: (event: IEventModel) => boolean;
 }
-export const EventHandler: React.FC<IProps> = observer((props) => {
+let prevElmId = ``;
+export const EventHandler: React.FC<IEventHandlerProps> = observer((props) => {
     const store = useEventHandler();
+    const ref = useRef<HTMLDivElement>(null);
+
     const events = useMemo(() => {
         const tryFindPriority = (): number => {
             const usedPriorities = new Set(
@@ -28,51 +38,73 @@ export const EventHandler: React.FC<IProps> = observer((props) => {
             while (usedPriorities.has(priority)) {
                 priority++;
             }
-
             return priority;
         };
-        props.events.forEach((event, index) => {
+        const sortEvents = (events: IEventModel[]) => {
+            return toJS(events).sort((a_, b_) => {
+                const a = store.getById(a_.id);
+                const b = store.getById(b_.id);
+                if (a.priority !== null && b.priority !== null) {
+                    return a.priority - b.priority;
+                } else if (a.priority === null && b.priority !== null) {
+                    return 1; // Move events with null priority to the end
+                } else if (a.priority !== null && b.priority === null) {
+                    return -1; // Move events with null priority to the beginning
+                } else {
+                    // Both priorities are null, maintain their original order
+                    return 0;
+                }
+            });
+        };
+        sortEvents(props.events).forEach((event, index) => {
+            if (index > props.maxRenderPerCell) {
+                return;
+            }
+
             const tmp = store.getById(event.id);
             if (tmp.priority === null) {
                 tmp.setPriority(tryFindPriority());
             }
         });
-        return props.events.toSorted((a_, b_) => {
-            const a = store.getById(a_.id);
-            const b = store.getById(b_.id);
 
-            if (a.priority !== null && b.priority !== null) {
-                return a.priority - b.priority;
-            }
-
-            return 1;
-        });
-    }, [props.events]);
-
-    const logic = (event: IEventModel): React.CSSProperties => {
-        const thisEvent = store.getById(event.id);
-
-        if (thisEvent.isRendering === false) {
-            thisEvent.startRendering();
-        } else if (
-            thisEvent.isRendering === true &&
-            props.currentCellIndex === props.maxCellIndex
-        ) {
-            thisEvent.stopRendering();
-        }
-
-        return {
-            visibility: thisEvent.isRendering === false ? "visible" : "hidden",
-        };
-    };
+        return sortEvents(props.events);
+    }, [props.events, store.rerender]);
 
     return (
-        <>
-            {events.map((event) => {
+        <div ref={ref} className={classes.eventHandlerHolder}>
+            {events.map((event, index) => {
                 const priority = store.getById(event.id).priority;
+                const id = `bear-calendar-event-handler-${event.id}`;
+                const uniqueId = `bear-calendar-event-handler-${event.id}-${props.cellId}`;
+                const prevId_ = prevElmId;
+                prevElmId = id;
+
                 if (priority === null) return null;
-                return props.renderItem(event, priority, logic(event));
+                return (
+                    <EventLogic
+                        prevId={prevId_}
+                        id={id}
+                        uniqueId={uniqueId}
+                        event={event}
+                        currentCellIndex={props.currentCellIndex}
+                        maxCellIndex={props.maxCellIndex}
+                        priority={priority}
+                        calcDiffRange={() => props.calcDiffRange(event)}
+                        renderItem={props.renderItem}
+                        key={`${index}-${id}-${event.date.start}`}
+                        index={index}
+                        maxRenderPerCell={props.maxRenderPerCell}
+                        findNextCell={props.findNextCell}
+                        isStartFunc={props.isStartFunc}
+                        enableDragAndDrop={props.enableDragAndDrop}
+                        setHeightForCell={(height) => {
+                            if (ref.current)
+                                ref.current.style.height = height + "px";
+                        }}
+                    />
+                );
             })}
-        </>
+            {events.length > props.maxRenderPerCell && <ShowMore {...props} />}
+        </div>
     );
 });

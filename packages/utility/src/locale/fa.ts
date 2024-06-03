@@ -26,6 +26,9 @@ export const faLocale: localeType = {
     ],
     back: "بازگشت",
     today: "امروز",
+    more: "مورد دیگر",
+
+    // config locale
     startDay: 6, // sunday
     direction: "rtl"
 };

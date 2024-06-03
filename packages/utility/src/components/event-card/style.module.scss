@@ -1,0 +1,28 @@
+.eventsItem {
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    padding: var(--space-sm);
+    border-radius: 3px;
+    background: var(--primary);
+    -webkit-user-select: none;
+    user-select: none;
+    color: #fff;
+    border: 1px solid transparent;
+    z-index: 1;
+
+    &.hover {
+        opacity: 0.95;
+        border: 1px solid rgba($color: #000000, $alpha: 1);
+    }
+
+    &.hide {
+        opacity: 0 !important;
+        z-index: 15;
+    }
+
+    .title {
+        position: sticky;
+        left: var(--sidebar-width);
+    }
+}
