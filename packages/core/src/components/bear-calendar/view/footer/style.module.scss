@@ -1,0 +1,16 @@
+.footer {
+    background: var(--primary);
+    padding: var(--space-tn);
+    color: var(--surface);
+
+    .plugin {
+        width: 20px;
+        height: 20px;
+        &.active {
+        }
+    }
+
+    &:empty {
+        display: none;
+    }
+}

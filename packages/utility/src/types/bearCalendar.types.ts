@@ -1,7 +1,7 @@
 import React, {ReactNode} from "react";
 import {Dayjs, locale} from "dayjs";
 import {BearConfigProviderProps} from "../components/config/ConfigProvider.types";
-import {IEventModel} from "../store";
+import {IEventModel, IEventModelSnapshotIn} from "../store";
 import {Plugin, PluginName} from "./plugin.types";
 
 type ILocale = Parameters<typeof locale>[0];
@@ -14,14 +14,7 @@ export interface BearCalendarCellProps
     extends React.AllHTMLAttributes<HTMLTableCellElement> {
     children?: React.ReactNode;
 }
-export interface IEvent<T = unknown> {
-    id: number;
-    title: string;
-    date: {
-        start: string;
-        end: string;
-    };
-    disabled?: boolean;
+export interface IEvent<T = unknown> extends IEventModelSnapshotIn {
     extraData?: T;
 }
 export interface BearCalendarEventProps

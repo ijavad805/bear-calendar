@@ -2,7 +2,7 @@
     z-index: 1;
     box-sizing: content-box;
     min-height: 100%;
-    padding: var(--space-sm);
+    padding: var(--space-tn);
 
     .header {
         display: flex;
@@ -11,7 +11,7 @@
         font-size: 12px;
         -webkit-user-select: none;
         user-select: none;
-        padding: var(--space-md);
+        padding: var(--space-sm);
     }
 
     .events {

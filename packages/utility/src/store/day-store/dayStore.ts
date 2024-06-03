@@ -12,6 +12,7 @@ import {toJS} from "mobx";
 export const dayStore = types
     .model("dayStore", {
         days: types.optional(types.map(dayModel), {}),
+        test: types.optional(types.string, "mst work fine"),
     })
     .actions((store) => ({
         add(day: IDayModelSnapIn) {
@@ -53,7 +54,9 @@ export const dayStore = types
                 } else {
                     store.add({
                         date: newDate_.format(formats.primary_key),
-                        events: [eventModel.create({...toJS(event), date: newDate})],
+                        events: [
+                            eventModel.create({...toJS(event), date: newDate}),
+                        ],
                     });
                 }
             }
@@ -88,5 +91,29 @@ export const dayStore = types
     .views((store) => ({
         get(date: string) {
             return store.days.get(dayjs(date).format(formats.primary_key));
+        },
+    }))
+    .views((store) => ({
+        getEventRange(start: string, end: string) {
+            let events: IEventModel[] = [];
+
+            for (let i = dayjs(end).diff(start, "day"); i >= 0; i--) {
+                const findEvents = store.get(
+                    dayjs(start).add(i, "days").format()
+                );
+
+                events = [
+                    ...events,
+                    ...(findEvents
+                        ? findEvents.events.filter(
+                              (i) =>
+                                  events.findIndex((i2) => i2.id === i.id) ===
+                                  -1
+                          )
+                        : []),
+                ];
+            }
+
+            return events;
         },
     }));

@@ -22,9 +22,12 @@ export const useTimelineProps = () => {
     return context;
 };
 
-export const TimelinePropsProvider: React.FC<IProps> = (props) => {
+export const TimelinePropsProvider: React.FC<IProps> = ({
+    value: {maxEventPerGroup = 5, ...values},
+    ...props
+}) => {
     return (
-        <TimelinePropsContext.Provider value={props.value}>
+        <TimelinePropsContext.Provider value={{...values, maxEventPerGroup}}>
             {props.children}
         </TimelinePropsContext.Provider>
     );

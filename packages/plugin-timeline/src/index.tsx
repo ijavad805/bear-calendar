@@ -9,8 +9,12 @@ export default class TimelinePlugin implements Plugin {
     constructor(options: IOption) {
         this.options = options;
     }
-    
+
     view() {
         return <Timeline {...this.options} />;
+    }
+
+    footer() {
+        return <div>HELLOOOO</div>;
     }
 }

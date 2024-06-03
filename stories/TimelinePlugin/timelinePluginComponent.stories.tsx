@@ -23,6 +23,7 @@ const mockEvent = () => {
                 start: startDate,
                 end: endDate,
             },
+            percentage: Math.ceil(Math.random() * 100),
         });
     }
 
@@ -39,17 +40,20 @@ const meta: Meta<typeof BearCalendar> = {
     },
     // More on argTypes: https://storybook.js.org/docs/api/argtypes
     argTypes: {},
+
     render(props) {
         return (
-            <BearCalendar
-                view={"Monthly"}
-                config={{locale: "en"}}
-                events={mockEvent()}
-                onClickEvent={(event) => {
-                    console.log("event click", event);
-                }}
-                {...props}
-            />
+            <div style={{height: 600}}>
+                <BearCalendar
+                    view={"Monthly"}
+                    config={{locale: "en"}}
+                    events={mockEvent()}
+                    onClickEvent={(event) => {
+                        console.log("event click", event);
+                    }}
+                    {...props}
+                />
+            </div>
         );
     },
 };
@@ -68,8 +72,16 @@ export const Primary: Story = {
                         events: [1, 2, 3, 4],
                         label: "group 1",
                     },
+                    {
+                        events: [5, 6, 7, 8],
+                        label: "group 2",
+                    },
+                    {
+                        events: [9, 10, 11, 12],
+                        label: "group 3",
+                    },
                 ],
-                zoomLevel: "day",
+                zoomLevel: "month",
             }),
         ],
     },

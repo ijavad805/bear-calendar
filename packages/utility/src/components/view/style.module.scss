@@ -1,0 +1,38 @@
+.view {
+    display: flex;
+    flex-direction: column;
+
+    &.center {
+        align-items: center;
+        justify-content: center;
+    }
+
+    &.horizontal {
+        flex-direction: row;
+    }
+
+    &.spaceBetween {
+        justify-content: space-between;
+    }
+
+    &.clickable {
+        cursor: pointer;
+        user-select: none;
+
+        &:hover {
+            background-color: var(--hover);
+        }
+    }
+    &.tiny {
+        gap: var(--space-tn);
+    }
+    &.small {
+        gap: var(--space-sm);
+    }
+    &.medium {
+        gap: var(--space-md);
+    }
+    &.large {
+        gap: var(--space-lg);
+    }
+}
