@@ -42,11 +42,6 @@ jobs:
           npm run build -w @bear-calendar/plugin-monthly
           npm run build -w @bear-calendar/plugin-timeline
           npm run build-storybook
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./storybook-static
-          destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
