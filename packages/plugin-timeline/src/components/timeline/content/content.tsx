@@ -1,13 +1,15 @@
 import {toJS} from "mobx";
 import {GroupCard} from "../../card";
-import {useTimelineProps} from "../useTimelineProps";
+import {useTimelineStore} from "../useTimelineStore";
 import classes from "./style.module.scss";
 import {observer, View} from "@bear-calendar/utility";
 import React, {useEffect} from "react";
 import {IDS} from "../ids";
 
 export const Content = observer(() => {
-    const {groups} = useTimelineProps();
+    const {
+        props: {groups},
+    } = useTimelineStore();
 
     useEffect(() => {
         const headerElm = document.getElementById(IDS.header);
@@ -24,6 +26,7 @@ export const Content = observer(() => {
                     label={item.label}
                     events={item.events}
                     key={`group-${index}`}
+                    id={item.id}
                 />
             ))}
         </View>

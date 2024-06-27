@@ -34,6 +34,7 @@ export const CalendarProvider: React.FC<IProps> = (props) => {
                     disabled: event.disabled,
                     title: event.title,
                     extraData: event.extraData,
+                    progress: event.progress,
                 }))
             );
         }

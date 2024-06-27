@@ -2,9 +2,10 @@
     background-color: var(--surface-2);
     height: 100%;
     overflow: auto;
-    flex-grow: 1;
     position: relative;
-
+    display: grid;
+    grid-template-rows: auto 1fr; /* Adjust rows to fit content */
+    
     * {
         --sidebar-width: 250px;
     }

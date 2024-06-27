@@ -1,9 +1,15 @@
 import React, {useMemo} from "react";
-import {IEventModel, useCalendarProps, View} from "@bear-calendar/utility";
-import {useTimelineProps} from "../../../timeline/useTimelineProps";
+import {
+    Droppable,
+    IEventModel,
+    useCalendarProps,
+    View,
+} from "@bear-calendar/utility";
+import {useTimelineStore} from "../../../timeline/useTimelineStore";
 import dayjs from "dayjs";
 import classes from "./style.module.scss";
 import {EventHolder} from "./eventHolder";
+import {enumZoomLevel} from "../../../../types";
 
 type IWithPriority = {
     priority: number;
@@ -13,7 +19,7 @@ interface IProps {
     events: IEventModel[];
 }
 export const EventHandler: React.FC<IProps> = (props) => {
-    const timelineProps = useTimelineProps();
+    const timelineProps = useTimelineStore();
     const [maxPriority, withPriority] = useMemo(() => {
         const maxPriority = 0;
         const withPriority: IWithPriority[] = [];
@@ -27,9 +33,9 @@ export const EventHandler: React.FC<IProps> = (props) => {
         };
 
         const startFrom =
-            (timelineProps.maxEventPerGroup || 0) > props.events.length
+            (timelineProps.props.maxEventPerGroup || 0) > props.events.length
                 ? props.events.length
-                : timelineProps.maxEventPerGroup;
+                : timelineProps.props.maxEventPerGroup;
 
         for (let i = startFrom === undefined ? 5 : startFrom; i >= 0; --i) {
             const event = props.events[i];
@@ -70,13 +76,13 @@ export const EventHandler: React.FC<IProps> = (props) => {
     const [differentIn] = useMemo(() => {
         let format: Parameters<typeof EventHolder>["0"]["differentIn"];
         switch (timelineProps.zoomLevel) {
-            case "month":
+            case enumZoomLevel.Day:
                 format = "days";
                 break;
-            case "day":
-                format = "hours";
+            case enumZoomLevel.Week:
+                format = "days";
                 break;
-            case "week":
+            case enumZoomLevel.Month:
                 format = "days";
                 break;
         }

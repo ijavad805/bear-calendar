@@ -1,11 +1,13 @@
 import React, {useMemo} from "react";
 import classes from "./style.module.scss";
-import {observer, useDayjs, useStore, View} from "@bear-calendar/utility";
-import {useTimelineProps} from "../../timeline/useTimelineProps";
+import {Droppable, observer, useDayjs, useStore, View} from "@bear-calendar/utility";
+import {useTimelineStore} from "../../timeline/useTimelineStore";
 import {EventHandler} from "./event-handler";
+import { enumZoomLevel } from "../../../types";
 
 interface IProps {
     label: string;
+    id: number;
     events: number[];
 }
 export const GroupCard: React.FC<IProps> = observer((props) => {
@@ -14,19 +16,19 @@ export const GroupCard: React.FC<IProps> = observer((props) => {
         dayStore: {days, getEventRange},
         current,
     } = useStore();
-    const {zoomLevel} = useTimelineProps();
+    const {zoomLevel} = useTimelineStore();
 
     const events = useMemo(() => {
         let start = dayjs();
         let end = dayjs();
 
-        if (zoomLevel === "day") {
+        if (zoomLevel === enumZoomLevel.Day) {
             start = start.startOf("day");
             end = end.endOf("day");
-        } else if (zoomLevel === "week") {
+        } else if (zoomLevel === enumZoomLevel.Week) {
             start = start.startOf("week");
             end = end.endOf("week");
-        } else if (zoomLevel === "month") {
+        } else if (zoomLevel === enumZoomLevel.Month) {
             start = start.startOf("month");
             end = end.endOf("month");
         }
@@ -35,13 +37,14 @@ export const GroupCard: React.FC<IProps> = observer((props) => {
             props.events.includes(i.id)
         );
     }, [zoomLevel, {...days}, current]);
-
-    
+ 
     return (
         <View className={classes.groupRow} horizontal>
             <View className={classes.groupLabel}>{props.label}</View>
             <View className={classes.groupEvents}>
-                <EventHandler events={events} />
+                <Droppable id={""}>
+                    <EventHandler events={events} />
+                </Droppable>
             </View>
         </View>
     );

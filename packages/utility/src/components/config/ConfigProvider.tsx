@@ -7,6 +7,7 @@ interface IProps {
     children: React.ReactNode;
     value?: BearConfigProviderProps;
 }
+
 export const useConfig = () => {
     const context = useContext(ConfigContext);
     if (context === undefined)
@@ -14,6 +15,8 @@ export const useConfig = () => {
 
     return context;
 };
+
+
 export const ProviderConfig: React.FC<IProps> = (props) => {
     return (
         <ConfigContext.Provider

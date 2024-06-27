@@ -23,7 +23,7 @@ const mockEvent = () => {
                 start: startDate,
                 end: endDate,
             },
-            percentage: Math.ceil(Math.random() * 100),
+            progress: Math.ceil(Math.random() * 100),
         });
     }
 
@@ -69,19 +69,23 @@ export const Primary: Story = {
             new TimelinePlugin({
                 groups: [
                     {
+                        id: 1,
                         events: [1, 2, 3, 4],
                         label: "group 1",
                     },
                     {
+                        id: 2,
                         events: [5, 6, 7, 8],
                         label: "group 2",
                     },
                     {
+                        id: 3,
                         events: [9, 10, 11, 12],
                         label: "group 3",
                     },
                 ],
-                zoomLevel: "month",
+                zoomLevel: "Day",
+                
             }),
         ],
     },

@@ -1,43 +1,41 @@
 {
-  "name": "@bear-calendar/plugin-monthly",
-  "version": "1.0.0",
-  "description": "monthly for bear calendar",
-  "private": false,
-  "author": "Javad Kazemzade",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ijavad805/bear-calendar",
-    "directory": "packages/plugin-monthly"
-  },
-  "scripts": {
-    "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
-    "build": "tsdx build --tsconfig tsconfig.build.json",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepublish": "npm run build"
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/plugin-monthly.esm.js",
-  "typings": "./dist/index.d.ts",
-  "files": [
-    "README.md",
-    "CHANGELOG.md",
-    "LICENSE",
-    "dist"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "dependencies": {
-    "dayjs": "^1.11.10",
-    "jalaliday": "^2.3.0",
-    "mobx": "^6.12.0",
-    "mobx-react-lite": "^4.0.5",
-    "mobx-state-tree": "^5.4.1"
-  },
-  "devDependencies": {
-    "sass": "^1.71.1",
-    "tslib": "^2.6.2"
-  }
+    "name": "@bear-calendar/plugin-monthly",
+    "version": "1.0.2",
+    "description": "monthly for bear calendar",
+    "private": false,
+    "author": "Javad Kazemzade",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ijavad805/bear-calendar",
+        "directory": "packages/plugin-monthly"
+    },
+    "scripts": {
+        "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
+        "build": "tsdx build --tsconfig tsconfig.build.json",
+        "test": "tsdx test",
+        "lint": "tsdx lint",
+        "prepublish": "npm run build"
+    },
+    "main": "./dist/index.js",
+    "module": "./dist/plugin-monthly.esm.js",
+    "typings": "./dist/index.d.ts",
+    "files": [
+        "README.md",
+        "CHANGELOG.md",
+        "LICENSE",
+        "dist"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@bear-calendar/utility": "^1.0.0",
+        "dayjs": "^1.11.10",
+        "jalaliday": "^2.3.0"
+    },
+    "devDependencies": {
+        "sass": "^1.71.1",
+        "tslib": "^2.6.2"
+    }
 }

@@ -1,10 +1,15 @@
 import React from "react";
-import {TimelinePropsProvider} from "./useTimelineProps";
 import {Content} from "./content";
 import {IEventModel, View} from "@bear-calendar/utility";
 import classes from "./style.module.scss";
 import {Header} from "./header";
+import { enumZoomLevel } from "../../types";
 export interface IGroup {
+    /**
+     * should be unique
+     */
+    id: number;
+
     /**
      * the label of the group
      */
@@ -36,12 +41,21 @@ export interface IGroup {
 }
 export interface IProps {
     groups: IGroup[];
-    zoomLevel: "month" | "day" | "week";
+    zoomLevel: keyof typeof enumZoomLevel;
 
     /**
      * default is 5
      */
     maxEventPerGroup?: number;
+
+    dragOptions?: {
+        canMoveToAnotherGroup: boolean;
+    };
+
+    /**
+     * on drop the event on another time or group
+     */
+    onDrop?: (event: IEventModel, groupId: number) => void;
 
     /**
      *
@@ -50,11 +64,9 @@ export interface IProps {
 }
 export const Timeline: React.FC<IProps> = (props) => {
     return (
-        <TimelinePropsProvider value={props}>
-            <View className={classes.timeline}>
-                    <Header />
-                    <Content />
-            </View>
-        </TimelinePropsProvider>
+        <View className={classes.timeline}>
+            <Header />
+            <Content />
+        </View>
     );
 };

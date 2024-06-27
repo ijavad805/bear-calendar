@@ -8,4 +8,7 @@ export interface Plugin {
     view?: () => React.ReactNode;
     components?: () => React.ReactNode;
     footer?: () => React.ReactNode;
+    context?: (
+        children: React.ReactElement<any, any> | null
+    ) => React.ReactElement<any, any> | null;
 }

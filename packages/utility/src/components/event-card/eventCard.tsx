@@ -9,7 +9,25 @@ interface IProps {
 export const EventCard: React.FC<IProps> = (props) => {
     return (
         <View className={classes.eventsItem} horizontal>
-            <View className={classes.title}>{props.event.title}</View>
+            {props.event.progress !== undefined && (
+                <View
+                    className={classes.progress}
+                    horizontal
+                    spaceBetween
+                    center
+                >
+                    <View
+                        className={classes.fill}
+                        style={{width: `${props.event.progress}%`}}
+                    />
+                    <span className={classes.label}>
+                        {props.event.progress}%
+                    </span>
+                </View>
+            )}
+            <View horizontal className={classes.container}>
+                <View className={classes.title}>{props.event.title}</View>
+            </View>
         </View>
     );
 };

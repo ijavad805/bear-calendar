@@ -12,20 +12,7 @@ export const View: React.FC = () => {
             const findView = calendarProps.plugin.find(
                 (i) => i.name === activeView
             );
-
-            if (findView && findView.view) return findView.view();
-        }
-
-        return <>View Not Found</>;
-    }, [activeView]);
-
-    const footer = useMemo(() => {
-        if (activeView) {
-            const findView = calendarProps.plugin.find(
-                (i) => i.name === activeView
-            );
-
-            if (findView && findView.footer) return findView.footer();
+            if (findView) return findView;
         }
 
         return null;
@@ -35,31 +22,39 @@ export const View: React.FC = () => {
         if (calendarProps.view) setActiveView(calendarProps.view);
     }, [calendarProps.view]);
 
-    return (
-        <div className={classes.view}>
-            {calendarProps.enableViewControl &&
-                calendarProps.plugin.filter((i) => i.view).length > 1 && (
-                    <div className={classes.viewControl}>
-                        {calendarProps.plugin
-                            .filter((i) => i.view)
-                            .map((item) => (
-                                <div
-                                    className={classes.btn}
-                                    onClick={() => setActiveView(item.name)}
-                                >
-                                    {item.name}
-                                </div>
-                            ))}
-                    </div>
-                )}
+    if (!view) return <>Plugin not found</>;
 
-            <div className={classes.body}>{view}</div>
-            <Footer
-                changeView={(name) => setActiveView(name)}
-                activePlugin={activeView}
-            >
-                {footer}
-            </Footer>
-        </div>
-    );
+    const render = () => {
+        return (
+            <div className={classes.view}>
+                {calendarProps.enableViewControl &&
+                    calendarProps.plugin.filter((i) => i.view).length > 1 && (
+                        <div className={classes.viewControl}>
+                            {calendarProps.plugin
+                                .filter((i) => i.view)
+                                .map((item) => (
+                                    <div
+                                        className={classes.btn}
+                                        onClick={() => setActiveView(item.name)}
+                                    >
+                                        {item.name}
+                                    </div>
+                                ))}
+                        </div>
+                    )}
+
+                <div className={classes.body}>
+                    {view.view ? view.view() : null}
+                </div>
+                <Footer
+                    changeView={(name) => setActiveView(name)}
+                    activePlugin={activeView}
+                >
+                    {view.footer ? view.footer() : null}
+                </Footer>
+            </div>
+        );
+    };
+
+    return view.context ? view.context(render()) : render();
 };

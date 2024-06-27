@@ -1,6 +1,6 @@
 import React from "react";
 import {Plugin, PluginName} from "@bear-calendar/utility";
-import {Timeline} from "./components";
+import {Footer, Timeline, TimelineStoreProvider} from "./components";
 
 type IOption = Parameters<typeof Timeline>["0"];
 export default class TimelinePlugin implements Plugin {
@@ -15,6 +15,15 @@ export default class TimelinePlugin implements Plugin {
     }
 
     footer() {
-        return <div>HELLOOOO</div>;
+        return <Footer />;
+    }
+
+    context(children: React.ReactNode) {
+
+        return (
+            <TimelineStoreProvider value={this.options}>
+                {children}
+            </TimelineStoreProvider>
+        );
     }
 }

@@ -4,3 +4,5 @@ export * from "./button";
 export * from "./view";
 export * from "./event-handler";
 export * from "./event-card";
+export * from "./drag-and-drop";
+export * from "./slider";

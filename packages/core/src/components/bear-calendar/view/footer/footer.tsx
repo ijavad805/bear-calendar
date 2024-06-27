@@ -22,22 +22,24 @@ export const Footer: React.FC<IProps> = ({
 
     return (
         <View className={classes.footer} horizontal spaceBetween center>
-            {props.plugin.length > 1 && (
-                <View space="tiny" horizontal>
-                    {props.plugin.map((item) => (
-                        <View
-                            center
-                            className={joinClass(classes.plugin, [
-                                activePlugin === item.name,
-                                classes.active,
-                            ])}
-                            onClick={changeView.bind(window, item.name)}
-                        >
-                            {item.name.split("")[0]}
-                        </View>
-                    ))}
-                </View>
-            )}
+            <View space="tiny" horizontal>
+                {props.plugin.length > 1 && (
+                    <>
+                        {props.plugin.map((item) => (
+                            <View
+                                center
+                                className={joinClass(classes.plugin, [
+                                    activePlugin === item.name,
+                                    classes.active,
+                                ])}
+                                onClick={changeView.bind(window, item.name)}
+                            >
+                                {item.name.split("")[0]}
+                            </View>
+                        ))}
+                    </>
+                )}
+            </View>
             {children}
         </View>
     );

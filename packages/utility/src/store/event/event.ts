@@ -10,7 +10,7 @@ export const eventModel = types.model("eventModel", {
     title: types.string,
     date: eventDateRangeModel,
     disabled: types.optional(types.boolean, false),
-    percentage: types.maybe(types.number),
+    progress: types.maybe(types.number),
     extraData: types.optional(types.frozen(), {}),
 });
 
